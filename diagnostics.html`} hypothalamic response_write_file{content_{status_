@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnostics | HMG SQL Intelligence</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme">
+    <nav class="navbar">
+        <div class="logo">
+            <span class="logo-icon">💎</span>
+            <span class="logo-text">HMG SQL <span>v6.0</span></span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="workbench.html">Workbench</a>
+            <a href="notebook.html">Notebook</a>
+            <a href="academy.html">Academy</a>
+            <a href="diagnostics.html" class="active">Diagnostics</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="about.html">About</a>
+        </div>
+        <div class="nav-controls">
+            <div class="theme-toggle" id="theme-toggle">🌓</div>
+        </div>
+    </nav>
+
+    <main class="diag-layout">
+        <header class="diag-header">
+            <h1>Diagnostic & Optimization Suite</h1>
+            <p>Audit, optimize, and debug your SQL queries with professional tools.</p>
+        </header>
+
+        <div class="diag-grid">
+            <div class="diag-card">
+                <div class="card-icon">⏱️</div>
+                <h3>Complexity Estimator</h3>
+                <p>Determine if your query is safe for production.</p>
+                <textarea id="comp-input" placeholder="Paste SQL..."></textarea>
+                <button id="btn-est" class="btn-primary">Analyze</button>
+                <div id="comp-out" class="diag-out"></div>
+            </div>
+            <div class="diag-card">
+                <div class="card-icon">🚫</div>
+                <h3>Error Explainer</h3>
+                <p>Turn cryptic DB errors into plain English.</p>
+                <textarea id="err-input" placeholder="Paste error..."></textarea>
+                <button id="btn-exp" class="btn-primary">Explain</button>
+                <div id="err-out" class="diag-out"></div>
+            </div>
+            <div class="diag-card">
+                <div class="card-icon">⇄</div>
+                <h3>SQL Compare (Diff)</h3>
+                <p>Review changes between query versions.</p>
+                <div class="diff-inputs">
+                    <textarea id="diff-1" placeholder="V1"></textarea>
+                    <textarea id="diff-2" placeholder,="V2"></textarea>
+                </div>
+                <button id="btn-diff" class="btn-primary">Compare</button>
+                <div id="diff-out" class="diag-out"></div>
+            </div>
+            <div class="diag-card">
+                <div class="card-icon">✨</div>
+                <h3>Professional Formatter</h3>
+                <p>Clean up messy SQL into readable code.</p>
+                <textarea id="fmt-input" placeholder="Paste messy SQL..."></textarea>
+                <button id="btn-fmt" class="btn-primary">Beautify</button>
+                <div id="fmt-out" class="diag-out"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-bottom">&copy; 2026 HMG Technologies. All Rights Reserved.</div>
+    </footer>
+
+    <script src="script-core.js"></script>
+    <script src="diagnostics.js"></script>
+    <script src="script-diagnostics.js"></script>
+</body>
+</html>

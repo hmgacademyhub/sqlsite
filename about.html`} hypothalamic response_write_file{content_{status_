@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | HMG Ecosystem</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme">
+    <nav class="navbar">
+        <div class="logo">
+            <span class="logo-icon">💎</span>
+            <span class="logo-text">HMG SQL <span>v6.0</span></span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="workbench.html">Workbench</a>
+            <a href="notebook.html">Notebook</a>
+            <a href="academy.html">Academy</a>
+            <a href="diagnostics.html">Diagnostics</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="about.html" class="active">About</a>
+        </div>
+        <div class="nav-controls">
+            <div class="theme-toggle" id="theme-toggle">🌓</div>
+        </div>
+    </nav>
+
+    <main class="about-layout">
+        <section class="about-hero">
+            <div class="about-content">
+                <h1>The Vision Behind <br><span class="text-gradient">HMG Intelligence</span></h1>
+                <p>Bridging the gap between raw data and human insight through education, technology, and faith.</p>
+            </div>
+        </section>
+
+        <section class="about-grid">
+            <div class="about-card persona">
+                <h2>Adewale Samson Adeagbo</h2>
+                <p class="role">Founder · Visioner · Data Scientist · STEM Educator</p>
+                <div class="persona-text">
+                    <p>Adewale is dedicated to empowering the next generation of data professionals. By combining technical expertise in Data Science with a passion for STEM education, he builds tools that make complex technology accessible to all.</p>
+                    <p>His mission is to ensure that high-level data intelligence is not locked behind expensive paywalls or complex cloud infrastructure, but is available to every student and analyst globally.</p>
+                </div>
+                <a href="https://cssadewale.pages.dev" class="btn-primary">View Personal Portfolio</a>
+            </div>
+
+            <div class="about-card ecosystem">
+                <h2>The HMG Brand Family</h2>
+                <div class="brand-links">
+                    <div class="brand-item">
+                        <strong>HMG Concepts</strong>
+                        <p>The foundation of educational consult and strategic vision.</p>
+                        <a href="https://hmgconcepts.pages.dev">Visit Site &rarr;</a>
+                    </div>
+                    <div class="brand-item">
+                        <strong>HMG Technologies</strong>
+                        <p>Engineering AI-augmented and browser-native software solutions.</p>
+                        <a href="https://hmgtechnologies.pages.dev">Visit Site &rarr;</a>
+                    </div>
+                    <div class="brand-item">
+                        <strong>HMG Academy</strong>
+                        <p>Bootcamps and certifications for STEM and Data Science.</p>
+                        <a href="https://hmgacademy.pages.dev">Visit Site &rarr;</a>
+                    </div>
+                    <div class="brand-item">
+                        <strong>HMG Media</strong>
+                        <p>Communication, storytelling, and digital content creation.</p>
+                        <a href="https://hmgmedia.pages.dev">Visit Site &rarr;</a>
+                    </div>
+                    <div class="brand-item">
+                        <strong>HMG Gospel</strong>
+                        <p>Integrating faith and technology for global outreach.</p>
+                        <a href="https://hmggospel.pages.dev">Visit Site &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-bottom">&copy; 2026 HMG Technologies. All Rights Reserved.</div>
+    </footer>
+
+    <script src="script-core.js"></script>
+</body>
+</html>

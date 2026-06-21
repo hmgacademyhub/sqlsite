@@ -1,0 +1,333 @@
+/**
+ * SQL Workflow v6 - Workbench Specific Logic
+ * Includes: Execution Plan Profiler
+ */
+
+let db = null;
+let SQL = null;
+let editor = null;
+let currentChart = null;
+
+const state = {
+    lastResult: null,
+    pinnedCharts: JSON.parse(localStorage.getItem('sql_v6_pins') || '[]'),
+    snippets: JSON.parse(localStorage.getItem('sql_v6_snippets') || '{}')
+};
+
+const els = {
+    dbStatus: document.getElementById('db-status'),
+    schemaList: document.getElementById('schema-list'),
+    resultsOutput: document.getElementById('results-output'),
+    rowCount: document.getElementById('row-count'),
+    auditLog: document.querySelector('#audit-log tbody'),
+    erDiagram: document.getElementById('er-diagram'),
+    explainOut: document.getElementById('explain-out')
+};
+
+async function initWorkbench() {
+    try {
+        SQL = await initSqlJs({
+            locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}`
+        });
+        db = new SQL.Database();
+        
+        setupEditor();
+        setupTabs();
+        setupEvents();
+        setupBuilder();
+        setupPilot();
+        updateStatus("Ready");
+    } catch (err) {
+        console.error("Init error:", err);
+        updateStatus("Init Error", true);
+    }
+}
+
+function setupEditor() {
+    editor = CodeMirror.fromTextArea(document.getElementById('sql-editor'), {
+        mode: 'text/x-sql',
+        theme: 'dracula',
+        lineNumbers: true,
+        extraKeys: { "Ctrl-Enter": runQuery }
+    });
+}
+
+function setupTabs() {
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.tab, .tab-pane').forEach(el => el.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById(tab.dataset.tab).classList.add('active');
+        });
+    });
+}
+
+function setupEvents() {
+    document.getElementById('btn-run').onclick = runQuery;
+    document.getElementById('btn-format').onclick = () => editor.setValue(Utils.formatSQL(editor.getValue()));
+    document.getElementById('btn-translate').onclick = () => {
+        const target = prompt("Translate to: Postgres or MySQL?");
+        if (target) editor.setValue(Utils.translateDialect(editor.getValue(), target));
+    };
+    document.getElementById('btn-explain').onclick = runExplain;
+    document.getElementById('btn-dataset-pack').onclick = toggleDatasetModal;
+    document.getElementById('csv-upload').onchange = handleCsvUpload;
+    document.getElementById('btn-exp-csv').onclick = () => exportData('csv');
+    document.getElementById('btn-gen-report').onclick = generateReport;
+    document.getElementById('btn-render-chart').onclick = renderChart;
+    document.getElementById('btn-pin-chart').onclick = pinChart;
+}
+
+function runExplain() {
+    const sql = editor.getValue().trim();
+    if (!sql) return;
+    
+    try {
+        const res = db.exec(`EXPLAIN QUERY PLAN ${sql}`);
+        const plan = res[0].values;
+        
+        let html = '<h4>Execution Path:</h4>';
+        plan.forEach(row => {
+            const detail = row[3];
+            let color = 'var(--text-bright)';
+            if (detail.includes('SCAN TABLE')) color = 'var(--danger)';
+            if (detail.includes('SEARCH TABLE')) color = 'var(--accent)';
+            
+            html += `<div style="color: ${color}; margin-bottom: 5px;">${detail}</div>`;
+        });
+        
+        // Simple optimization tip
+        if (plan.some(row => row[3].includes('SCAN TABLE'))) {
+            html += `<p style="margin-top:10px; color:var(--primary)"><strong>Tip:</strong> This query is performing a Full Table Scan. Consider adding an INDEX to improve performance.</p>`;
+        } else {
+            html += `<p style="margin-top:10px; color:var(--accent)"><strong>Optimization:</strong> This query is using indexes efficiently.</p>`;
+        }
+
+        els.explainOut.innerHTML = html;
+        document.querySelector('[data-tab="explain-tab"]').click();
+    } catch (err) {
+        els.explainOut.innerHTML = `<div style="color:var(--danger)">Error: ${err.message}</div>`;
+    }
+}
+
+function runQuery() {
+    const sql = editor.getValue().trim();
+    if (!sql) return;
+    const start = performance.now();
+    try {
+        const res = db.exec(sql);
+        const duration = (performance.now() - start).toFixed(2);
+        if (res.length > 0) {
+            state.lastResult = res[0];
+            renderTable(res[0]);
+        } else {
+            state.lastResult = null;
+            els.resultsOutput.innerHTML = '<div class="empty-msg">Query executed. No results returned.</div>';
+        }
+        logAudit(sql, duration, res[0]?.values?.length || 0, "Success");
+        updateStatus("Executed");
+    } catch (err) {
+        logAudit(sql, 0, 0, "Error: " + err.message);
+        els.resultsOutput.innerHTML = `<div class="empty-msg" style="color: var(--danger)">${err.message}</div>`;
+        updateStatus("Error", true);
+    }
+}
+
+function renderTable(result) {
+    const { columns, values } = result;
+    els.rowCount.textContent = `${values.length} rows`;
+    let html = '<table><thead><tr>' + columns.map(c => `<th>${c}</th>`).join('') + '</tr></thead><tbody>';
+    values.forEach(row => { html += '<tr>' + row.map(cell => `<td>${cell}</td>`).join('') + '</tr>'; });
+    html += '</tbody></table>';
+    els.resultsOutput.innerHTML = html;
+}
+
+function logAudit(query, duration, rows, status) {
+    const row = document.createElement('tr');
+    row.innerHTML = `<td>${new Date().toLocaleTimeString()}</td><td title="${query}">${query.substring(0, 30)}...</td><td>${duration}ms</td><td style="color: ${status === 'Success' ? 'var(--accent)' : 'var(--danger)'}">${status}</td>`;
+    els.auditLog.prepend(row);
+}
+
+async function handleCsvUpload(e) {
+    for (const file of e.target.files) {
+        const text = await file.text();
+        await processCSV(text, file.name);
+    }
+    updateSchema();
+}
+
+async function processCSV(text, fileName) {
+    return new Promise((resolve) => {
+        Papa.parse(text, {
+            header: true,
+            dynamicTyping: true,
+            complete: (results) => {
+                const tableName = fileName.replace('.csv', '').replace(/\s+/g, '_').toLowerCase();
+                const cols = results.meta.fields;
+                db.run(`CREATE TABLE IF NOT EXISTS "${tableName}" (${cols.map(c => `"${c}" TEXT`).join(', ')});`);
+                const stmt = db.prepare(`INSERT INTO "${tableName}" VALUES (${cols.map(() => '?').join(',')});`);
+                results.data.forEach(row => stmt.run(cols.map(c => row[c])));
+                stmt.free();
+                resolve();
+            }
+        });
+    });
+}
+
+function updateSchema() {
+    const res = db.exec("SELECT name FROM sqlite_master WHERE type='table';");
+    els.schemaList.innerHTML = '';
+    els.erDiagram.innerHTML = '';
+    if (!res) return;
+    res[0].values.forEach(row => {
+        const name = row[0];
+        const div = document.createElement('div');
+        div.className = 'ref-item';
+        div.innerHTML = `📁 <strong>${name}</strong>`;
+        div.onclick = () => editor.setValue(`SELECT * FROM ${name} LIMIT 100;`);
+        els.schemaList.appendChild(div);
+        const erBox = document.createElement('div');
+        erBox.className = 'er-box';
+        const colInfo = db.exec(`PRAGMA table_info("${name}")`)[0].values;
+        erBox.innerHTML = `<strong>${name}</strong>` + colInfo.map(c => `<span class="col">${c[1]} (${c[2]})</span>`).join('');
+        els.erDiagram.appendChild(erBox);
+    });
+}
+
+function toggleDatasetModal() {
+    const pack = prompt("Enter pack: (ecommerce, finance)");
+    if (pack && DATASET_PACKS[pack]) {
+        const data = DATASET_PACKS[pack];
+        data.tables.forEach(t => processCSV(t.data, t.name));
+        updateSchema();
+        updateStatus(`Loaded ${data.name}`);
+    }
+}
+
+function renderChart() {
+    if (!state.lastResult) return alert("Run a query first!");
+    const { columns, values } = state.lastResult;
+    const type = document.getElementById('chart-type').value;
+    const labels = values.map(v => v[0]);
+    const data = values.map(v => parseFloat(v[1]) || 0);
+    if (currentChart) currentChart.destroy();
+    const ctx = document.getElementById('resultsChart').getContext('2d');
+    currentChart = new Chart(ctx, {
+        type: type,
+        data: { labels: labels, datasets: [{ label: columns[1] || 'Value', data: data, backgroundColor: ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'] }] },
+        options: { responsive: true, maintainAspectRatio: false }
+    });
+}
+
+function pinChart() {
+    if (!currentChart) return alert("Render a chart first!");
+    const pin = { id: Date.now(), title: editor.getValue().substring(0, 30), chartType: document.getElementById('chart-type').value, data: currentChart.data };
+    state.pinnedCharts.push(pin);
+    localStorage.setItem('sql_v6_pins', JSON.stringify(state.pinnedCharts));
+    alert("Pinned!");
+}
+
+function generateReport() {
+    if (!state.lastResult) return alert("No data!");
+    const html = Utils.generateReport(editor.getValue(), state.lastResult);
+    Utils.download(html, 'Enterprise_Report.html', 'text/html');
+}
+
+function exportData(format) {
+    if (!state.lastResult) return;
+    const { columns, values } = state.lastResult;
+    if (format === 'csv') Utils.download(Utils.exportCSV(values, columns), 'export.csv', 'text/csv');
+}
+
+function setupPilot() {
+    const input = document.getElementById('pilot-input');
+    const btn = document.getElementById('btn-pilot-ask');
+    const paramsBox = document.getElementById('pilot-params');
+    btn.onclick = () => {
+        const query = input.value;
+        const pattern = Pilot.analyze(query);
+        if (pattern) {
+            paramsBox.style.display = 'block';
+            paramsBox.innerHTML = `<p><strong>${pattern.prompt}</strong></p>`;
+            pattern.params.forEach(p => {
+                paramsBox.innerHTML += `<div>${p}: <input type="text" class="pilot-param" data-param="${p}"></div>`;
+            });
+            paramsBox.innerHTML += `<button id="btn-apply-pilot" class="btn-small-full">Generate SQL</button>`;
+            document.getElementById('btn-apply-pilot').onclick = () => {
+                const vals = Array.from(paramsBox.querySelectorAll('.pilot-param')).map(i => i.value);
+                editor.setValue(Pilot.generate(pattern, vals));
+                paramsBox.style.display = 'none';
+            };
+        } else {
+            alert("Pattern not found. Try 'Top 10 customers' or 'Total spent'.");
+        }
+    };
+}
+
+function setupBuilder() {
+    const tabs = document.querySelectorAll('.build-tab');
+    const container = document.getElementById('builder-container');
+    tabs.forEach(tab => {
+        tab.onclick = () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            const type = tab.dataset.builder;
+            if (type === 'standard') {
+                container.innerHTML = `<div class="build-step"><label>Table</label><select id="b-tab"></select></div><div class="build-step"><label>Cols</label><div id="b-cols" class="checkbox-group"></div></div><button id="b-apply" class="btn-small-full">Apply</button>`;
+                setupStandardBuilder();
+            } else if (type === 'join') {
+                container.innerHTML = `<div class="build-step"><label>Left</label><select id="j-left"></select></div><div class="build-step"><label>Type</label><select id="j-type"><option>INNER JOIN</option><option>LEFT JOIN</option></select></div><div class="build-step"><label>Right</label><select id="j-right"></select></div><button id="j-apply" class="btn-small-full">Apply</button>`;
+                setupJoinBuilder();
+            } else {
+                container.innerHTML = `<div class="build-step"><label>Inner</label><textarea id="sb-inner" style="height:60px"></textarea></div><div class="build-step"><label>Alias</label><input type="text" id="sb-alias" value="sub"></div><div class="build-step"><label>Outer</label><input type="text" id="sb-outer" value="*"></div><button id="sb-apply" class="btn-small-full">Apply</button>`;
+                setupSubqueryBuilder();
+            }
+        };
+    });
+    tabs[0].click();
+}
+
+function setupStandardBuilder() {
+    const sel = document.getElementById('b-tab');
+    const colBox = document.getElementById('b-cols');
+    updateBuilderTables(sel);
+    sel.onchange = () => {
+        const cols = db.exec(`PRAGMA table_info("${sel.value}")`)[0].values;
+        colBox.innerHTML = cols.map(c => `<div><input type="checkbox" value="${c[1]}"> ${c[1]}</div>`).join('');
+    };
+    document.getElementById('b-apply').onclick = () => {
+        const selectedCols = Array.from(colBox.querySelectorAll('input:checked')).map(i => i.value);
+        editor.setValue(`SELECT ${selectedCols.join(', ') || '*'} FROM ${sel.value};`);
+    };
+}
+
+function setupJoinBuilder() {
+    const left = document.getElementById('j-left');
+    const right = document.getElementById('j-right');
+    updateBuilderTables(left);
+    updateBuilderTables(right);
+    document.getElementById('j-apply').onclick = () => {
+        editor.setValue(`SELECT * FROM ${left.value} ${document.getElementById('j-type').value} ${right.value} ON ${left.value}.id = ${right.value}.id;`);
+    };
+}
+
+function setupSubqueryBuilder() {
+    document.getElementById('sb-apply').onclick = () => {
+        const inner = document.getElementById('sb-inner').value;
+        const alias = document.getElementById('sb-alias').value;
+        const outer = document.getElementById('sb-outer').value;
+        editor.setValue(`SELECT ${outer} FROM (${inner}) AS ${alias};`);
+    };
+}
+
+function updateBuilderTables(sel) {
+    const res = db.exec("SELECT name FROM sqlite_master WHERE type='table';");
+    if (!res) return;
+    sel.innerHTML = '<option value="">Select Table</option>' + res[0].values.map(v => `<option value="${v[0]}">${v[0]}</option>`).join('');
+}
+
+function updateStatus(text, isError = false) {
+    HMG_CORE.updateStatus('db-status', text, isError);
+}
+
+initWorkbench();

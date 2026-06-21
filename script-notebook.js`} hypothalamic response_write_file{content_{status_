@@ -1,0 +1,121 @@
+/**
+ * SQL Workflow v6 - Analysis Notebook Logic
+ * Implements a "Jupyter-like" interface for data storytelling.
+ */
+
+let db = null;
+let SQL = null;
+let cells = [];
+
+async function initNotebook() {
+    try {
+        SQL = await initSqlJs({
+            locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}`
+        });
+        db = new SQL.Database();
+        
+        setupEvents();
+        loadNotebook();
+    } catch (err) {
+        console.error("Notebook init error:", err);
+    }
+}
+
+function setupEvents() {
+    document.getElementById('btn-add-text').onclick = () => addCell('text');
+    document.getElementById('btn-add-sql').onclick = () => addCell('sql');
+    document.getElementById('btn-save-nb').onclick = saveNotebook;
+}
+
+function addCell(type, content = '') {
+    const id = Date.now();
+    const cell = { id, type, content };
+    cells.push(cell);
+    renderCell(cell);
+}
+
+function renderCell(cell) {
+    const container = document.getElementById('notebook-container');
+    const div = document.createElement('div');
+    div.className = `cell ${cell.type}-cell`;
+    div.id = `cell-${cell.id}`;
+    
+    if (cell.type === 'text') {
+        div.innerHTML = `
+            <div class="cell-toolbar"><span>Text Cell</span> <button onclick="removeCell(${cell.id})" class="btn-danger-small">✕</button></div>
+            <textarea class="text-editor" placeholder="Write your analysis notes here...">${cell.content}</textarea>
+        `;
+    } else {
+        div.innerHTML = `
+            <div class="cell-toolbar"><span>SQL Cell</span> <button onclick="removeCell(${cell.id})" class="btn-danger-small">✕</button></div>
+            <textarea class="sql-editor">${cell.content}</textarea>
+            <button class="btn-run-cell" onclick="runCell(${cell.id})">▶ Run</button>
+            <div class="cell-output"></div>
+        `;
+        
+        // Initialize CodeMirror for the SQL cell
+        setTimeout(() => {
+            CodeMirror.fromTextArea(div.querySelector('.sql-editor'), {
+                mode: 'text/x-sql',
+                theme: 'dracula',
+                lineNumbers: true
+            });
+        }, 10);
+    }
+    
+    container.appendChild(div);
+}
+
+window.removeCell = (id) => {
+    cells = cells.filter(c => c.id !== id);
+    document.getElementById(`cell-${id}`).remove();
+};
+
+window.runCell = (id) => {
+    const cell = cells.find(c => c.id === id);
+    const editor = document.getElementById(`cell-${id}`).querySelector('.CodeMirror').getValue();
+    const outputDiv = document.getElementById(`cell-${id}`).querySelector('.cell-output');
+    
+    try {
+        const res = db.exec(editor);
+        if (res.length > 0) {
+            const { columns, values } = res[0];
+            let html = '<table><thead><tr>' + columns.map(c => `<th>${c}</th>`).join('') + '</tr></thead><tbody>';
+            values.forEach(row => { html += '<tr>' + row.map(cell => `<td>${cell}</td>`).join('') + '</tr>'; });
+            html += '</tbody></table>';
+            outputDiv.innerHTML = html;
+        } else {
+            outputDiv.innerHTML = 'Query executed. No rows returned.';
+        }
+    } catch (err) {
+        outputDiv.innerHTML = `<div style="color:var(--danger)">Error: ${err.message}</div>`;
+    }
+};
+
+function saveNotebook() {
+    const data = {
+        title: document.getElementById('nb-title').value,
+        cells: cells.map(c => {
+            if (c.type === 'sql') {
+                c.content = document.getElementById(`cell-${c.id}`).querySelector('.CodeMirror').getValue();
+            } else {
+                c.content = document.getElementById(`cell-${c.id}`).querySelector('.text-editor').value;
+            }
+            return c;
+        })
+    };
+    localStorage.setItem('hmg_notebook_v6', JSON.stringify(data));
+    alert("Notebook saved to local storage!");
+}
+
+function loadNotebook() {
+    const saved = JSON.parse(localStorage.getItem('hmg_notebook_v6'));
+    if (saved) {
+        document.getElementById('nb-title').value = saved.title;
+        saved.cells.forEach(c => addCell(c.type, c.content));
+    } else {
+        addCell('text', 'Welcome to your first HMG Analysis Notebook. Start by adding a SQL cell to explore your data!');
+    }
+}
+
+initNotebook();

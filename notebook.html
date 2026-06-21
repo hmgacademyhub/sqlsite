@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Notebook | HMG SQL Intelligence</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/dracula.min.css">
+</head>
+<body class="dark-theme">
+    <nav class="navbar">
+        <div class="logo">
+            <span class="logo-icon">💎</span>
+            <span class="logo-text">HMG SQL <span>v6.0</span></span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="workbench.html">Workbench</a>
+            <a href="notebook.html" class="active">Notebook</a>
+            <a href="academy.html">Academy</a>
+            <a href="diagnostics.html">Diagnostics</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="about.html">About</a>
+        </div>
+        <div class="nav-controls">
+            <div class="theme-toggle" id="theme-toggle">🌓</div>
+        </div>
+    </nav>
+
+    <main class="notebook-layout">
+        <header class="notebook-header">
+            <div class="nb-title-area">
+                <input type="text" id="nb-title" value="My Data Analysis Story" class="nb-title-input">
+                <div class="nb-actions">
+                    <button id="btn-save-nb" class="btn-secondary">Save Project</button>
+                    <button id="btn-export-nb" class="btn-primary">Export as Report</button>
+                </div>
+            </div>
+        </header>
+
+        <div id="notebook-container" class="notebook-container">
+            <!-- Cells go here -->
+        </div>
+
+        <div class="notebook-footer">
+            <button id="btn-add-text" class="btn-tool">+ Add Text Cell</button>
+            <button id="btn-add-sql" class="btn-tool">+ Add SQL Cell</button>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/sql/sql.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="datasets.js"></script>
+    <script src="utils.js"></script>
+    <script src="script-core.js"></script>
+    <script src="script-notebook.js"></script>
+</body>
+</html>
