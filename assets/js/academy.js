@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', async()=>{
-  const C=ClassDesk; const engine=await ClassDeskSQLEngine.create(); let current=HMG_DATA.challenges[0];
+  const C=SQLWorkflow; const engine=await SQLWorkflowSQLEngine.create(); let current=HMG_DATA.challenges[0];
   function progress(){ const done=Object.keys(C.state.academy.completed||{}).length, total=HMG_DATA.challenges.length, pct=Math.round(done/total*100); C.qs('#academyScore').textContent=`Progress: ${pct}%`; C.qs('#academyBar').style.width=pct+'%'; C.qs('#badgeList').innerHTML=(C.state.academy.badges||[]).map(b=>`<div class="schema-item">🏅 ${C.esc(b)}</div>`).join('')||'<div class="empty">Complete lessons to unlock badges.</div>'; }
   function renderList(){ C.qs('#moduleList').innerHTML=HMG_DATA.challenges.map(ch=>`<div class="module ${ch.id===current.id?'active':''} ${C.state.academy.completed[ch.id]?'done':''}" data-ch="${ch.id}"><strong>${C.esc(ch.title)}</strong><div class="challenge-meta"><span class="pill">${C.esc(ch.level)}</span><span class="pill">${C.esc(ch.concept)}</span></div><span class="muted">${C.state.academy.completed[ch.id]?'Completed':'Not completed'}</span></div>`).join(''); C.qsa('[data-ch]').forEach(el=>el.onclick=()=>{current=HMG_DATA.challenges.find(c=>c.id===el.dataset.ch); render();}); }
   function norm(r){ return JSON.stringify({c:r.columns, v:r.values}); }

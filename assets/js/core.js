@@ -1,9 +1,9 @@
-/* ClassDesk shared core: navigation, storage, diagnostics, exports, utilities */
-window.ClassDesk = (() => {
-  const KEY = 'classdesk_state_v1';
+/* SQL Workflow For Data Analyst/Data Scientist shared core: navigation, storage, diagnostics, exports, utilities */
+window.SQLWorkflow = (() => {
+  const KEY = 'sql_workflow_state_v1';
   const defaults = {theme:'dark', snippets:[], pins:[], audit:[], notebook:null, academy:{completed:{}, badges:[], streak:0,last:''}, settings:{}};
   const clone = x => JSON.parse(JSON.stringify(x));
-  const state = Object.assign(clone(defaults), JSON.parse(localStorage.getItem(KEY) || '{}'));
+  const state = Object.assign(clone(defaults), JSON.parse(localStorage.getItem(KEY) || localStorage.getItem('classdesk_state_v1') || '{}'));
   function save(){ localStorage.setItem(KEY, JSON.stringify(state)); }
   function qs(s, r=document){ return r.querySelector(s); }
   function qsa(s, r=document){ return Array.from(r.querySelectorAll(s)); }
@@ -17,8 +17,37 @@ window.ClassDesk = (() => {
   function parseCSV(text){ const lines=text.trim().split(/\r?\n/).filter(Boolean); if(!lines.length) return {columns:[], rows:[]}; const split=line=>{ const out=[]; let cur='',q=false; for(let i=0;i<line.length;i++){const ch=line[i]; if(ch==='"'){ if(q&&line[i+1]==='"'){cur+='"';i++;} else q=!q;} else if(ch===','&&!q){out.push(cur);cur='';} else cur+=ch;} out.push(cur); return out.map(x=>x.trim());}; const columns=split(lines[0]).map(slug); const rows=lines.slice(1).map(split); return {columns, rows}; }
   function markdown(md=''){ let html=esc(md); html=html.replace(/^### (.*)$/gm,'<h3>$1</h3>').replace(/^## (.*)$/gm,'<h2>$1</h2>').replace(/^# (.*)$/gm,'<h1>$1</h1>'); html=html.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/`([^`]+)`/g,'<code>$1</code>'); html=html.replace(/^- (.*)$/gm,'<li>$1</li>').replace(/(<li>.*<\/li>)/gs,'<ul>$1</ul>'); return html.replace(/\n/g,'<br>'); }
   function formatSQL(sql=''){ const kws=['SELECT','FROM','WHERE','JOIN','LEFT JOIN','RIGHT JOIN','INNER JOIN','ON','GROUP BY','ORDER BY','HAVING','LIMIT','UNION','VALUES','INSERT INTO','CREATE TABLE','DELETE FROM','UPDATE','SET']; let out=' '+sql.replace(/\s+/g,' ').trim(); kws.sort((a,b)=>b.length-a.length).forEach(k=>{ out=out.replace(new RegExp('\\s+'+k.replace(/ /g,'\\s+')+'\\s+','ig'), '\n'+k+' '); }); out=out.replace(/,\s*/g,',\n       ').replace(/^\n/,'').trim(); return out.endsWith(';')?out:out+';'; }
-  function translate(sql='', target='sqlite'){ let s=sql; if(target==='sqlite' || target==='postgres' || target==='mysql'){ s=s.replace(/SELECT\s+TOP\s+(\d+)\s+/i,'SELECT '); const top=(sql.match(/SELECT\s+TOP\s+(\d+)/i)||[])[1]; if(top && !/LIMIT\s+\d+/i.test(s)) s=s.replace(/;?\s*$/, ` LIMIT ${top};`); s=s.replace(/GETDATE\(\)/ig, target==='postgres'?'CURRENT_DATE':'DATE(\'now\')'); s=s.replace(/ISNULL\(/ig, target==='postgres'?'COALESCE(':'IFNULL('); }
-    if(target==='sqlserver'){ const lim=(s.match(/LIMIT\s+(\d+)/i)||[])[1]; if(lim){ s=s.replace(/SELECT/i,`SELECT TOP ${lim}`).replace(/\s+LIMIT\s+\d+/i,''); } s=s.replace(/DATE\('now'\)/ig,'GETDATE()').replace(/IFNULL\(/ig,'ISNULL('); }
+  function translate(sql='', target='sqlite'){
+    let s=sql;
+    if(target==='sqlite' || target==='postgres' || target==='mysql' || target==='duckdb' || target==='bigquery' || target==='snowflake'){
+      s=s.replace(/SELECT\s+TOP\s+(\d+)\s+/i,'SELECT ');
+      const top=(sql.match(/SELECT\s+TOP\s+(\d+)/i)||[])[1];
+      if(top && !/LIMIT\s+\d+/i.test(s)) s=s.replace(/;?\s*$/, ` LIMIT ${top};`);
+      
+      if(target==='postgres' || target==='snowflake' || target==='bigquery') {
+        s=s.replace(/GETDATE\(\)/ig, 'CURRENT_DATE()');
+        s=s.replace(/DATE\('now'\)/ig, 'CURRENT_DATE()');
+      } else if(target==='duckdb') {
+        s=s.replace(/GETDATE\(\)/ig, 'today()');
+        s=s.replace(/DATE\('now'\)/ig, 'current_date');
+      } else {
+        s=s.replace(/GETDATE\(\)/ig, "DATE('now')");
+      }
+      
+      if(target==='postgres' || target==='snowflake' || target==='bigquery' || target==='duckdb') {
+        s=s.replace(/IFNULL\(/ig, 'COALESCE(');
+        s=s.replace(/ISNULL\(/ig, 'COALESCE(');
+      } else {
+        s=s.replace(/ISNULL\(/ig, 'IFNULL(');
+      }
+    }
+    if(target==='sqlserver'){
+      const lim=(s.match(/LIMIT\s+(\d+)/i)||[])[1];
+      if(lim){
+        s=s.replace(/SELECT/i,`SELECT TOP ${lim}`).replace(/\s+LIMIT\s+\d+/i,'');
+      }
+      s=s.replace(/DATE\('now'\)/ig,'GETDATE()').replace(/IFNULL\(/ig,'ISNULL(');
+    }
     return formatSQL(s);
   }
   function analyzeSQL(sql=''){ const txt=sql.trim(); const low=txt.toLowerCase(); let score=10, findings=[]; const add=(level,msg,fix)=>{ findings.push({level,msg,fix}); score += level==='bad'?25:level==='warn'?12:4; };
@@ -36,10 +65,116 @@ window.ClassDesk = (() => {
   function diff(a,b){ const A=a.split(/\r?\n/), B=b.split(/\r?\n/), n=Math.max(A.length,B.length); let html='<div class="table-wrap"><table><thead><tr><th>Original</th><th>Changed</th></tr></thead><tbody>'; for(let i=0;i<n;i++){ const same=A[i]===B[i]; html+=`<tr><td class="diff-line ${same?'':'del'}">${esc(A[i]||'')}</td><td class="diff-line ${same?'':'add'}">${esc(B[i]||'')}</td></tr>`; } return html+'</tbody></table></div>'; }
   function generateSQLFromPrompt(prompt=''){ const p=prompt.toLowerCase(); const exact=(HMG_DATA.patterns||[]).find(x=>x.match.every(m=>p.includes(m))); if(exact) return exact.sql; let table='learners'; if(p.includes('sale')||p.includes('revenue')||p.includes('profit')) table='sales'; if(p.includes('course')) table='courses'; if(p.includes('department')) table=p.includes('revenue')?'sales':'learners'; let sql='SELECT * FROM '+table; if(p.includes('active')) sql += " WHERE status = 'Active'"; if(p.includes('top')) sql += table==='sales'?' ORDER BY revenue DESC':' ORDER BY score DESC'; const lim=(p.match(/\b(\d+)\b/)||[])[1]; if(lim) sql += ' LIMIT '+lim; return sql+';'; }
   function drawChart(canvas, result, type='bar'){ const ctx=canvas.getContext('2d'), W=canvas.width, H=canvas.height; ctx.clearRect(0,0,W,H); ctx.fillStyle=getComputedStyle(document.body).getPropertyValue('--panel2'); ctx.fillRect(0,0,W,H); if(!result||!result.values||!result.values.length){ctx.fillStyle='#94a3b8';ctx.fillText('No chartable data',20,30);return;} const labels=result.values.map(r=>String(r[0])); const nums=result.values.map(r=>Number(r.find((v,i)=>i>0 && !isNaN(Number(v))) ?? r[1])||0); const max=Math.max(...nums,1); ctx.font='13px sans-serif'; ctx.fillStyle='#94a3b8'; if(type==='pie'){ let total=nums.reduce((a,b)=>a+b,0)||1, start=-Math.PI/2; nums.forEach((v,i)=>{ const ang=v/total*Math.PI*2; ctx.beginPath(); ctx.moveTo(W/2,H/2); ctx.arc(W/2,H/2,Math.min(W,H)/3,start,start+ang); ctx.fillStyle=['#6366f1','#22c55e','#f59e0b','#38bdf8','#ef4444','#8b5cf6'][i%6]; ctx.fill(); start+=ang; }); labels.slice(0,6).forEach((l,i)=>{ctx.fillStyle=['#6366f1','#22c55e','#f59e0b','#38bdf8','#ef4444','#8b5cf6'][i%6]; ctx.fillRect(20,20+i*22,12,12); ctx.fillStyle='#94a3b8'; ctx.fillText(l,38,31+i*22);}); return; } const pad=45, bw=(W-pad*2)/nums.length*.7; ctx.strokeStyle='#334155'; ctx.beginPath(); ctx.moveTo(pad,20); ctx.lineTo(pad,H-pad); ctx.lineTo(W-20,H-pad); ctx.stroke(); if(type==='line'){ ctx.strokeStyle='#38bdf8'; ctx.lineWidth=3; ctx.beginPath(); nums.forEach((v,i)=>{const x=pad+i*((W-pad*2)/(Math.max(nums.length-1,1))), y=H-pad-(v/max)*(H-75); i?ctx.lineTo(x,y):ctx.moveTo(x,y);}); ctx.stroke(); } else { nums.forEach((v,i)=>{const x=pad+i*((W-pad*2)/nums.length)+10, h=(v/max)*(H-75); ctx.fillStyle=['#6366f1','#22c55e','#f59e0b','#38bdf8'][i%4]; ctx.fillRect(x,H-pad-h,bw,h);}); } labels.forEach((l,i)=>{ const x=pad+i*((W-pad*2)/nums.length)+4; ctx.save(); ctx.translate(x,H-12); ctx.rotate(-.35); ctx.fillStyle='#94a3b8'; ctx.fillText(l.slice(0,12),0,0); ctx.restore(); }); }
-  function exportProject(){ const data=JSON.stringify({app:HMG_DATA.version, exportedAt:new Date().toISOString(), state}, null, 2); download('classdesk-project.hmg.json', data, 'application/json'); }
+  function exportProject(){ const data=JSON.stringify({app:HMG_DATA.version, exportedAt:new Date().toISOString(), state}, null, 2); download('sql-workflow-project.hmg.json', data, 'application/json'); }
   function importProject(file){ return file.text().then(text=>{ const obj=JSON.parse(text); if(!obj.state) throw new Error('Invalid project file'); Object.assign(state, defaults, obj.state); save(); toast('Project imported. Reloading…'); setTimeout(()=>location.reload(),800); }); }
-  function setupNav(){ document.body.classList.toggle('light', state.theme==='light'); const nav=qs('[data-nav]'); if(nav){ const pages=['Home:index.html','Workbench:workbench.html','Practice:practice-arena.html','QueryFlow v3:queryflow.html','QueryPilot v9:querypilot-v9.html','Analytics Eng:analytics-engineering.html','Portfolio Lab:portfolio-lab.html','Flashcards:flashcards.html','Enterprise:enterprise-suite.html','Academy:academy.html','Notebook:notebook.html','Diagnostics:diagnostics.html','Dashboard:dashboard.html','Search:search.html','Ecosystem:ecosystem.html','Builder:persona.html','About:about.html']; const cur=location.pathname.split('/').pop()||'index.html'; nav.innerHTML=`<a class="logo" href="index.html"><span class="logo-badge">💎</span><span>ClassDesk SQL<small>HMG Academy Hub</small></span></a><button class="btn-small hamb" id="hamb">☰</button><div class="nav-links" id="navLinks">${pages.map(p=>{const [t,u]=p.split(':');return `<a class="${cur===u?'active':''}" href="${u}">${t}</a>`}).join('')}</div><div class="nav-actions"><button class="btn-small" id="themeBtn" title="Toggle theme">🌓</button></div>`; qs('#themeBtn').onclick=()=>{state.theme=state.theme==='light'?'dark':'light';save();document.body.classList.toggle('light',state.theme==='light');}; qs('#hamb')?.addEventListener('click',()=>qs('#navLinks').classList.toggle('open')); }
-    const foot=qs('[data-footer]'); if(foot){ foot.innerHTML=`<div class="footer-grid"><div><div class="logo"><span class="logo-badge">💎</span><span>ClassDesk SQL<small>Free browser-native data intelligence</small></span></div><p class="muted">Designed for HMG Academy Hub. No paid AI API required. Static deployment ready.</p></div><div><strong>Platform</strong><a href="search.html">Search</a><a href="enterprise-suite.html">Enterprise Suite</a><a href="FEATURES.md">Features</a><a href="DEPLOYMENT.md">Deployment</a><a href="README.md">README</a></div><div><strong>HMG Ecosystem</strong><a href="persona.html">Adewale Samson Adeagbo</a><a href="ecosystem.html">Ecosystem Page</a><a href="https://hmgconcepts.pages.dev">HMG Concepts</a><a href="https://hmgtechnologies.pages.dev">HMG Technologies</a><a href="https://hmgacademy.pages.dev">HMG Academy</a><a href="https://hmgmedia.pages.dev">HMG Media</a><a href="https://hmggospel.pages.dev">HMG Gospel</a></div></div>`; }
+  function setupNav(){
+    document.body.classList.toggle('light', state.theme==='light');
+    const nav=qs('[data-nav]');
+    if(nav){
+      const cur=location.pathname.split('/').pop()||'index.html';
+      const groups = [
+        {
+          name: 'Workspace IDE',
+          pages: [
+            ['Workbench', 'workbench.html'],
+            ['QueryFlow Builder', 'queryflow.html'],
+            ['QueryPilot Hub', 'querypilot-v9.html'],
+            ['SQL Notebook', 'notebook.html']
+          ]
+        },
+        {
+          name: 'Modeling & Engineering',
+          pages: [
+            ['Analytics Engineering', 'analytics-engineering.html'],
+            ['Portfolio Lab', 'portfolio-lab.html'],
+            ['Executive Dashboard', 'dashboard.html']
+          ]
+        },
+        {
+          name: 'Learning & Practice',
+          pages: [
+            ['Academy Hub', 'academy.html'],
+            ['Practice Arena', 'practice-arena.html'],
+            ['Spaced Flashcards', 'flashcards.html']
+          ]
+        },
+        {
+          name: 'Audit & Governance',
+          pages: [
+            ['SQL Diagnostics', 'diagnostics.html'],
+            ['Enterprise Suite', 'enterprise-suite.html']
+          ]
+        },
+        {
+          name: 'Ecosystem & Info',
+          pages: [
+            ['Global Search', 'search.html'],
+            ['HMG Ecosystem', 'ecosystem.html'],
+            ['Builder Profile', 'persona.html'],
+            ['About Platform', 'about.html']
+          ]
+        }
+      ];
+
+      let navHtml = `<a class="logo" href="index.html"><span class="logo-badge">💎</span><span>SQL Workflow<small>Data Analyst/Data Scientist</small></span></a>`;
+      navHtml += `<button class="btn-small hamb" id="hamb">☰</button>`;
+      navHtml += `<div class="nav-links" id="navLinks">`;
+      navHtml += `<a class="${cur==='index.html'?'active':''}" href="index.html">Home</a>`;
+      
+      groups.forEach(g => {
+        const anyActive = g.pages.some(p => cur === p[1]);
+        navHtml += `
+          <div class="nav-dropdown ${anyActive ? 'active' : ''}">
+            <button class="nav-dropdown-trigger">${g.name} <small>▼</small></button>
+            <div class="nav-dropdown-content">
+              ${g.pages.map(p => `<a class="${cur===p[1]?'active':''}" href="${p[1]}">${p[0]}</a>`).join('')}
+            </div>
+          </div>
+        `;
+      });
+      
+      navHtml += `</div>`;
+      navHtml += `<div class="nav-actions"><button class="btn-small" id="themeBtn" title="Toggle theme">🌓</button></div>`;
+      
+      nav.innerHTML = navHtml;
+      
+      qs('#themeBtn').onclick=()=>{
+        state.theme=state.theme==='light'?'dark':'light';
+        save();
+        document.body.classList.toggle('light',state.theme==='light');
+      };
+      qs('#hamb')?.addEventListener('click',()=>qs('#navLinks').classList.toggle('open'));
+    }
+
+    const foot=qs('[data-footer]');
+    if(foot){
+      foot.innerHTML=`<div class="footer-grid">
+        <div>
+          <div class="logo">
+            <span class="logo-badge">💎</span>
+            <span>SQL Workflow<small>Free browser-native data intelligence</small></span>
+          </div>
+          <p class="muted">Designed for HMG Academy Hub. No paid AI API required. Static deployment ready.</p>
+        </div>
+        <div>
+          <strong>Workflow Platform</strong>
+          <a href="index.html">Home Dashboard</a>
+          <a href="search.html">Search Tool</a>
+          <a href="enterprise-suite.html">Enterprise Suite</a>
+          <a href="about.html">About & Features</a>
+        </div>
+        <div>
+          <strong>HMG Ecosystem</strong>
+          <a href="persona.html">Adewale Samson Adeagbo</a>
+          <a href="ecosystem.html">Ecosystem Page</a>
+          <a href="https://hmgconcepts.pages.dev">HMG Concepts</a>
+          <a href="https://hmgtechnologies.pages.dev">HMG Technologies</a>
+          <a href="https://hmgacademy.pages.dev">HMG Academy</a>
+          <a href="https://hmgmedia.pages.dev">HMG Media</a>
+          <a href="https://hmggospel.pages.dev">HMG Gospel</a>
+        </div>
+      </div>`;
+    }
     if('serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register('sw.js').catch(()=>{});
   }
   document.addEventListener('DOMContentLoaded', setupNav);

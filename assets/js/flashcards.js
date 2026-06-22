@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded',()=>{
- const C=ClassDesk; const cards=[
+ const C=SQLWorkflow; const cards=[
   ['SQL Basics','What does SELECT do?','It defines the columns or expressions returned by a query. SELECT * returns all columns but is discouraged in production.'],
   ['SQL Basics','WHERE vs HAVING?','WHERE filters rows before grouping. HAVING filters groups after GROUP BY and can use aggregates.'],
   ['SQL Basics','Why pair LIMIT with ORDER BY?','Without ORDER BY, database row order is not guaranteed. LIMIT without ORDER BY returns an arbitrary slice.'],

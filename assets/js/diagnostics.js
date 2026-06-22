@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded',()=>{
- const C=ClassDesk;
+ const C=SQLWorkflow;
  function findingsHTML(a){ return `<strong>${a.grade} risk · score ${a.score}/100</strong><ul>${a.findings.map(f=>`<li><b>${f.level.toUpperCase()}:</b> ${C.esc(f.msg)}<br><span class="muted">Fix: ${C.esc(f.fix)}</span></li>`).join('')||'<li>No major issue detected.</li>'}</ul>`; }
  C.qs('#runDiag').onclick=()=>{ const a=C.analyzeSQL(C.qs('#diagSql').value); C.qs('#diagOut').innerHTML=findingsHTML(a); };
  C.qs('#explainErr').onclick=()=>{ C.qs('#errOut').innerHTML=C.esc(C.explainError(C.qs('#errText').value)); };

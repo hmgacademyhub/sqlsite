@@ -1,12 +1,12 @@
 /* SQL engine wrapper: sql.js when available, deterministic fallback otherwise */
-window.ClassDeskSQLEngine = (() => {
+window.SQLWorkflowSQLEngine = (() => {
   class FallbackDB {
     constructor(){ this.tables = JSON.parse(JSON.stringify(HMG_DATA.tables)); }
     getSchema(){ return Object.entries(this.tables).map(([name,t])=>({name, columns:t.columns})); }
     loadSample(){ this.tables = JSON.parse(JSON.stringify(HMG_DATA.tables)); }
-    addTable(name, columns, rows){ this.tables[ClassDesk.slug(name)] = {columns, rows}; }
+    addTable(name, columns, rows){ this.tables[SQLWorkflow.slug(name)] = {columns, rows}; }
     exec(sql){ sql=sql.trim().replace(/;$/,''); if(!sql) return {columns:[], values:[]}; const low=sql.toLowerCase(); if(low.startsWith('select')) return this.select(sql); if(low.startsWith('explain')) return {columns:['detail'], values:[[this.explain(sql.replace(/^explain\s+(query\s+plan\s+)?/i,''))]]}; return {columns:['message'], values:[['Fallback engine supports SELECT and EXPLAIN. Online sql.js supports full SQLite.']]}; }
-    explain(sql){ const a=ClassDesk.analyzeSQL(sql); return `${a.grade} complexity (${a.score}/100). ${a.findings.map(f=>f.msg).join(' ') || 'No major warnings.'}`; }
+    explain(sql){ const a=SQLWorkflow.analyzeSQL(sql); return `${a.grade} complexity (${a.score}/100). ${a.findings.map(f=>f.msg).join(' ') || 'No major warnings.'}`; }
     select(sql){
       let m=sql.match(/^select\s+([\s\S]+?)\s+from\s+([a-zA-Z_][\w]*)(?:\s+(?:as\s+)?(\w+))?([\s\S]*)$/i); if(!m) throw new Error('Fallback parser: expected SELECT ... FROM table');
       let [, colPart, tableName, alias, rest]=m;
@@ -39,9 +39,9 @@ window.ClassDeskSQLEngine = (() => {
   }
   function loadAllTablesIntoSqlJs(db){
     Object.entries(HMG_DATA.tables).forEach(([name,t])=>{
-      const table=ClassDesk.slug(name);
+      const table=SQLWorkflow.slug(name);
       db.run(`DROP TABLE IF EXISTS ${table}`);
-      db.run(`CREATE TABLE ${table} (${t.columns.map(c=>ClassDesk.slug(c)+' TEXT').join(',')})`);
+      db.run(`CREATE TABLE ${table} (${t.columns.map(c=>SQLWorkflow.slug(c)+' TEXT').join(',')})`);
       const stmt=db.prepare(`INSERT INTO ${table} VALUES (${t.columns.map(()=>'?').join(',')})`);
       (t.rows||[]).forEach(r=>stmt.run(r));
       stmt.free();
@@ -59,7 +59,7 @@ window.ClassDeskSQLEngine = (() => {
     exec(sql){ if(this.real){ const res=this.db.exec(sql); return res[0] ? {columns:res[0].columns, values:res[0].values} : {columns:[], values:[]}; } return this.db.exec(sql); }
     explain(sql){ if(this.real){ const res=this.db.exec('EXPLAIN QUERY PLAN '+sql.replace(/;\s*$/,'')); return res[0]?{columns:res[0].columns,values:res[0].values}:{columns:['detail'],values:[['No plan returned']]}; } return this.db.exec('EXPLAIN '+sql); }
     schema(){ if(this.real){ const names=this.db.exec("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name"); const out=[]; (names[0]?.values||[]).forEach(([name])=>{ const info=this.db.exec(`PRAGMA table_info(${name})`); out.push({name, columns:(info[0]?.values||[]).map(r=>r[1])}); }); return out; } return this.db.getSchema(); }
-    addTable(name, columns, rows){ if(this.real){ const safe=ClassDesk.slug(name); this.db.run(`DROP TABLE IF EXISTS ${safe}`); this.db.run(`CREATE TABLE ${safe} (${columns.map(c=>ClassDesk.slug(c)+' TEXT').join(',')})`); const stmt=this.db.prepare(`INSERT INTO ${safe} VALUES (${columns.map(()=>'?').join(',')})`); rows.forEach(r=>stmt.run(r)); stmt.free(); } else this.db.addTable(name, columns, rows); }
+    addTable(name, columns, rows){ if(this.real){ const safe=SQLWorkflow.slug(name); this.db.run(`DROP TABLE IF EXISTS ${safe}`); this.db.run(`CREATE TABLE ${safe} (${columns.map(c=>SQLWorkflow.slug(c)+' TEXT').join(',')})`); const stmt=this.db.prepare(`INSERT INTO ${safe} VALUES (${columns.map(()=>'?').join(',')})`); rows.forEach(r=>stmt.run(r)); stmt.free(); } else this.db.addTable(name, columns, rows); }
   }
   return {create};
 })();

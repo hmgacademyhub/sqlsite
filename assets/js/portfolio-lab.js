@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded',()=>{
- const C=ClassDesk; const catalog=[
+ const C=SQLWorkflow; const catalog=[
   {id:'hmg_students',title:'HMG Students',domain:'EdTech',rows:HMG_DATA.tables.hmg_students.rows.length,cols:HMG_DATA.tables.hmg_students.columns,questions:['Which subjects show strongest performance?','Which exam targets need support?','Are grades aligned with scores?'],portfolio:'Student performance insight report'},
   {id:'hmg_enrollments',title:'HMG Enrollments',domain:'Education Business',rows:HMG_DATA.tables.hmg_enrollments.rows.length,cols:HMG_DATA.tables.hmg_enrollments.columns,questions:['Which programmes generate the most fee volume?','Which channels bring active enrollments?','What status mix needs attention?'],portfolio:'Programme revenue and channel analysis'},
   {id:'hmg_projects',title:'HMG Projects',domain:'Founder Portfolio',rows:HMG_DATA.tables.hmg_projects.rows.length,cols:HMG_DATA.tables.hmg_projects.columns,questions:['Which industries have the most shipped projects?','What technology patterns repeat?','How can proof of work be summarized?'],portfolio:'Builder proof-of-work analytics'},

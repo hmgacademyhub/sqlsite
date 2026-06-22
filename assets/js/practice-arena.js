@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', async()=>{
- const C=ClassDesk; const engine=await ClassDeskSQLEngine.create(); let current=null, mockStart=null, timer=null;
+ const C=SQLWorkflow; const engine=await SQLWorkflowSQLEngine.create(); let current=null, mockStart=null, timer=null;
  const challenges=[
   {id:'p1',title:'Top scoring students',difficulty:'Easy',skill:'Filtering & Sorting',prompt:'Return name, subject and score for the top 5 students by score.',starter:'SELECT name, subject, score\nFROM hmg_students\nORDER BY score DESC\nLIMIT 5;',solution:'SELECT name, subject, score FROM hmg_students ORDER BY score DESC LIMIT 5;',hint:'Use ORDER BY score DESC and LIMIT 5.'},
   {id:'p2',title:'Average score by subject',difficulty:'Easy',skill:'Aggregation',prompt:'Return each subject with average score rounded to 1 decimal and student count.',starter:'SELECT subject, ROUND(AVG(score),1) AS avg_score, COUNT(*) AS students\nFROM hmg_students\nGROUP BY subject\nORDER BY avg_score DESC;',solution:'SELECT subject, ROUND(AVG(score),1) AS avg_score, COUNT(*) AS students FROM hmg_students GROUP BY subject ORDER BY avg_score DESC;',hint:'Every non-aggregate selected column needs GROUP BY.'},

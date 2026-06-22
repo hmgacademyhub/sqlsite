@@ -1,5 +1,5 @@
 const SQLV6_SEARCH_INDEX = [
-  ['Home','index.html','SQL v6 gateway for ClassDesk, QueryFlow v3, QueryPilot v9, HMG ecosystem and deployment.','home gateway overview'],
+  ['Home','index.html','SQL v6 gateway for SQL Workflow For Data Analyst/Data Scientist, QueryFlow v3, QueryPilot v9, HMG ecosystem and deployment.','home gateway overview'],
   ['Workbench','workbench.html','SQL editor, CSV upload, visual builder, schema explorer, audit, charts, snippets, project export.','sql ide csv chart report'],
   ['QueryFlow v3 Lab','queryflow.html','No-code SQL, plain English parser, pivot, profiler, insights, charts, saved history and share tokens.','queryflow pivot profiler insights'],
   ['QueryPilot v9 Console','querypilot-v9.html','Full QueryPilot app with 11 SQL modes, enterprise console and 118-lesson Learning Hub.','querypilot enterprise learning hub'],

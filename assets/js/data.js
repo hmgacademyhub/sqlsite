@@ -1,5 +1,5 @@
 window.HMG_DATA = {
-  version: 'ClassDesk SQL Intelligence v1.0.0',
+  version: 'SQL Workflow For Data Analyst/Data Scientist SQL Intelligence v1.0.0',
   generated: '2026-06-22',
   tables: {
     learners: {
