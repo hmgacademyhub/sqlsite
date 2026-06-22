@@ -1,4 +1,4 @@
-/* ClassDesk SQL Intelligence - Enterprise Static UI */
+/* SQL Workflow For Data Analyst/Data Scientist SQL Intelligence - Enterprise Static UI */
 :root{
   --bg:#0b1020;--panel:#111827;--panel2:#172033;--card:#1f2937;--text:#e5e7eb;--muted:#94a3b8;--line:#334155;
   --brand:#6366f1;--brand2:#8b5cf6;--ok:#22c55e;--warn:#f59e0b;--bad:#ef4444;--info:#38bdf8;--shadow:0 20px 50px rgba(0,0,0,.35);
@@ -14,3 +14,108 @@ body.light{--bg:#f8fafc;--panel:#ffffff;--panel2:#f1f5f9;--card:#ffffff;--text:#
 @media (max-width:1100px){.workspace{grid-template-columns:1fr}.side{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.cards{grid-template-columns:repeat(2,1fr)}.hero{grid-template-columns:1fr}.hero-visual{min-height:330px}.dashboard .dash-grid,.dash-grid{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:760px){.navbar{align-items:flex-start}.hamb{display:inline-flex}.nav-links{display:none;position:absolute;top:62px;left:0;right:0;background:var(--panel);padding:1rem;border-bottom:1px solid var(--line)}.nav-links.open{display:flex;flex-direction:column;align-items:stretch}.nav-links a{border-radius:12px}.hero,.section{padding-left:1rem;padding-right:1rem}.workspace,.academy-layout,.split,.diff,.footer-grid{grid-template-columns:1fr}.side{display:flex}.cards,.dash-grid{grid-template-columns:1fr}.page-title{display:block}.hero h1{font-size:2.7rem}.mock-window{position:relative;width:100%;right:auto}.metric-card{display:none}}
 @media print{.navbar,.footer,.toolbar,.tabbar,.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-danger,.btn-small,.cell-head button,.no-print{display:none!important}body{background:#fff;color:#111}.panel,.card,.cell{box-shadow:none;border:1px solid #ddd}.print-only{display:block}.page{padding:0}.editor{white-space:pre-wrap;color:#111;background:#fff}}
+
+/* ==========================================
+   SQL WORKFLOW DROPDOWN STYLES (UNIFIED UI)
+   ========================================== */
+.nav-dropdown {
+  position: relative;
+  display: inline-block;
+}
+.nav-dropdown-trigger {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-size: .92rem;
+  padding: .62rem .78rem;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.nav-dropdown-trigger small {
+  font-size: 0.65rem;
+  opacity: 0.7;
+}
+.nav-dropdown-trigger:hover, .nav-dropdown.active .nav-dropdown-trigger {
+  background: rgba(99,102,241,.14);
+  color: var(--text);
+}
+.nav-dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--panel);
+  min-width: 220px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  z-index: 100;
+  padding: .5rem 0;
+  margin-top: .5rem;
+  animation: slideDown 0.2s ease-out;
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.nav-dropdown:hover .nav-dropdown-content {
+  display: block;
+}
+.nav-dropdown-content a {
+  display: block !important;
+  padding: .6rem 1rem !important;
+  color: var(--muted) !important;
+  font-size: .88rem !important;
+  text-align: left !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  width: 100% !important;
+  transition: all 0.15s ease !important;
+}
+.nav-dropdown-content a:hover, .nav-dropdown-content a.active {
+  background: rgba(99,102,241,.1) !important;
+  color: var(--brand) !important;
+  padding-left: 1.25rem !important;
+}
+
+/* Mobile responsive navigation overrides */
+@media (max-width: 760px) {
+  .nav-links {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  .nav-dropdown {
+    display: block;
+    width: 100%;
+    margin-bottom: .5rem;
+  }
+  .nav-dropdown-trigger {
+    width: 100%;
+    justify-content: space-between;
+    padding: .6rem .8rem;
+    font-weight: bold;
+    border-bottom: 1px solid var(--line);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.02);
+  }
+  .nav-dropdown-content {
+    position: static;
+    display: block !important;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    padding: 0;
+    margin-top: 0;
+    min-width: auto;
+    animation: none;
+  }
+  .nav-dropdown-content a {
+    padding-left: 1.5rem !important;
+    border-bottom: 1px dashed rgba(148,163,184,.1) !important;
+  }
+}
