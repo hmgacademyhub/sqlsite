@@ -1,7 +1,7 @@
 {
-  "name": "SQL v5 — HMG SQL Intelligence Platform",
-  "short_name": "SQL v5",
-  "description": "Searchable multi-page static SQL platform combining ClassDesk, QueryFlow v3, QueryPilot v9, enterprise governance, Learning Hub and HMG ecosystem identity. No paid AI API.",
+  "name": "SQL v6 — HMG SQL Intelligence, Practice and Governance Platform",
+  "short_name": "SQL v6",
+  "description": "Searchable multi-page static SQL platform combining ClassDesk, QueryFlow v3, QueryPilot v9, interview practice, flashcards, portfolio lab, analytics engineering, enterprise governance and HMG ecosystem identity. No paid AI API.",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0f172a",
@@ -12,8 +12,9 @@
   ],
   "shortcuts": [
     {"name": "Workbench", "url": "./workbench.html"},
+    {"name": "Practice Arena", "url": "./practice-arena.html"},
     {"name": "QueryPilot v9", "url": "./querypilot-v9.html"},
-    {"name": "Enterprise Suite", "url": "./enterprise-suite.html"},
+    {"name": "Analytics Engineering", "url": "./analytics-engineering.html"},
     {"name": "Search", "url": "./search.html"}
   ]
 }

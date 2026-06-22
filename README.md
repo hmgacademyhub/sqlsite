@@ -1,21 +1,31 @@
-# SQL v5 — HMG Searchable Multi-Page SQL Intelligence Platform
+# SQL v6 — HMG SQL Intelligence, Practice, Portfolio & Governance Platform
 
-SQL v5 is the enhanced, SEO-ready, multi-page static platform that preserves and extends everything from SQL v4:
+SQL v6 is the final enhanced multi-page static package. It preserves SQL v5 and adds benchmark-inspired learning, practice, portfolio and analytics-engineering features.
 
-1. **ClassDesk SQL Intelligence** — workbench, academy, notebook, diagnostics, dashboard.
-2. **QueryFlow v3 Static Lab** — no-code SQL, QueryFlow-style builder, profiler, pivot, insights, sharing and history.
-3. **QueryPilot v9 Console** — extracted QueryPilot PWA with 11 modes, 8 SQL tools, 25 enterprise features and 118-lesson Data Science Learning Hub.
-4. **HMG Brand Embedding** — dedicated builder/persona and ecosystem pages based on Adewale Samson Adeagbo and HMG Concepts brand sites.
-5. **Search Engine Readiness** — sitemap, robots file, semantic multi-page structure, meta tags, Open Graph tags, structured data, local search and documentation.
+## What SQL v6 combines
+
+1. **ClassDesk SQL Intelligence** — workbench, academy, notebook, diagnostics and dashboard.
+2. **QueryFlow v3 Static Lab** — no-code SQL, profiler, pivot, insights, sharing and saved history.
+3. **QueryPilot v9 Console** — extracted PWA with 11 SQL modes, 8 tools, 25 enterprise features and a 118-lesson Data Science Learning Hub.
+4. **SQL Practice Arena** — interview-style challenges, timed mocks, wrong-answer diagnostics, skill radar and local leaderboard.
+5. **Flashcards & Spaced Review** — SQL, governance and analytics-engineering memory system.
+6. **Portfolio Lab** — dataset catalog, case-study generator, reproducibility checklist and portfolio brief export.
+7. **Analytics Engineering Lab** — dbt-inspired model SQL, YAML tests/docs, lineage and semantic metrics.
+8. **HMG Brand Embedding** — Adewale Samson Adeagbo, HMG Concepts, HMG Academy, HMG Technologies, HMG Media and HMG Gospel.
+9. **SEO/Search** — sitemap, robots, local search, metadata and structured data.
 
 ## Main pages
 
 | Page | Purpose |
 |---|---|
-| `index.html` | Main SEO gateway and product overview |
+| `index.html` | Main SEO gateway |
 | `workbench.html` | SQL workbench / IDE |
+| `practice-arena.html` | SQL interview practice and timed mock arena |
 | `queryflow.html` | Static QueryFlow v3 Lab |
 | `querypilot-v9.html` | Full QueryPilot v9 Console |
+| `analytics-engineering.html` | dbt-inspired analytics-engineering lab |
+| `portfolio-lab.html` | Dataset/portfolio case-study lab |
+| `flashcards.html` | Spaced repetition SQL flashcards |
 | `enterprise-suite.html` | Enterprise governance overview |
 | `academy.html` | SQL Academy path |
 | `notebook.html` | Markdown + SQL + chart notebook |
@@ -26,35 +36,6 @@ SQL v5 is the enhanced, SEO-ready, multi-page static platform that preserves and
 | `ecosystem.html` | HMG Concepts ecosystem page |
 | `about.html` | About and feature explanation |
 
-## SEO and discoverability files
-
-```text
-robots.txt
-sitemap.xml
-humans.txt
-manifest.webmanifest
-querypilot-manifest.json
-```
-
-The sitemap currently uses:
-
-```text
-https://hmgacademyhub.github.io/sqlsite/
-```
-
-If you deploy on a different custom domain, update `sitemap.xml` and `robots.txt` with your final domain.
-
-## HMG identity embedded
-
-SQL v5 includes details from:
-
-- Adewale Samson Adeagbo portfolio — `https://cssadewale.pages.dev`
-- HMG Concepts — `https://hmgconcepts.pages.dev`
-- HMG Academy — `https://hmgacademy.pages.dev`
-- HMG Technologies — `https://hmgtechnologies.pages.dev`
-- HMG Media — `https://hmgmedia.pages.dev`
-- HMG Gospel — `https://hmggospel.pages.dev`
-
 ## Free/no-cost architecture
 
 - Static HTML/CSS/JavaScript.
@@ -63,13 +44,13 @@ SQL v5 includes details from:
 - LocalStorage persistence.
 - Native Canvas charts.
 - PWA/offline support.
+- No backend required.
 - No paid AI API.
-- No required backend.
 
 ## Local testing
 
 ```bash
-cd "sql v5"
+cd "sql v6"
 python3 -m http.server 8000
 ```
 
@@ -83,9 +64,15 @@ http://localhost:8000
 
 See `DEPLOYMENT.md`.
 
-## Detailed features
+## Verification and research
 
-See `FEATURES.md`, `ENTERPRISE.md`, `LEARNING_HUB.md`, `RECHECK_AND_V4_AUDIT.md` and `QUERYFLOW_AUDIT.md`.
+See:
+
+```text
+SQL_V6_RESEARCH_AND_VERIFICATION.md
+RECHECK_AND_V4_AUDIT.md
+QUERYFLOW_AUDIT.md
+```
 
 ## License
 

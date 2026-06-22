@@ -408,3 +408,112 @@ All intelligence remains free-based:
 - Static documents.
 
 No paid AI API is required.
+
+---
+
+# SQL v6 Additions — Benchmark-Inspired Learning, Practice and Analytics Engineering
+
+SQL v6 preserves SQL v5 and adds four major feature groups based on benchmarking similar SQL/data platforms.
+
+## 1. Practice Arena
+
+Files:
+
+```text
+practice-arena.html
+assets/js/practice-arena.js
+```
+
+Features:
+
+- Interview-style SQL challenge bank.
+- Difficulty filters: Easy, Medium, Hard.
+- Skill filters: aggregation, joins, data quality, business logic, calculated metrics and more.
+- Timed mock mode.
+- Starter SQL.
+- Hints.
+- Official solution reveal.
+- Exact result-set validation.
+- Wrong-answer diagnostics showing column, row-count and first value differences.
+- Skill radar chart.
+- Local leaderboard.
+- Badges.
+
+## 2. Flashcards & Spaced Review
+
+Files:
+
+```text
+flashcards.html
+assets/js/flashcards.js
+```
+
+Features:
+
+- Decks for SQL basics, joins, aggregation, window functions, governance, data quality, analytics engineering and performance.
+- Show answer.
+- Again / Good / Easy rating.
+- Local spaced repetition schedule.
+- Due count.
+- Mastery progress.
+
+## 3. Dataset & Portfolio Lab
+
+Files:
+
+```text
+portfolio-lab.html
+assets/js/portfolio-lab.js
+```
+
+Features:
+
+- Dataset catalog.
+- HMG Students case ideas.
+- HMG Enrollments case ideas.
+- HMG Projects case ideas.
+- Sales case ideas.
+- Ministry/FaithTech case ideas.
+- Audience-specific case-study generator.
+- Reproducibility checklist.
+- Portfolio readiness score.
+- Markdown portfolio brief export.
+
+## 4. Analytics Engineering Lab
+
+Files:
+
+```text
+analytics-engineering.html
+assets/js/analytics-engineering.js
+```
+
+Features:
+
+- dbt-inspired model planner.
+- Layer selector: staging, intermediate, mart, semantic.
+- Model SQL generator.
+- Grain documentation.
+- YAML docs/tests generator.
+- Suggested not-null, unique, accepted-values and relationships tests.
+- SVG lineage diagram.
+- Run checklist.
+- Semantic metric ideas.
+- Project skeleton export.
+
+## 5. Why these additions matter
+
+SQL v6 now supports the full loop:
+
+1. Learn.
+2. Review.
+3. Practise.
+4. Diagnose errors.
+5. Build portfolio cases.
+6. Model analytics pipelines.
+7. Govern enterprise SQL.
+8. Export and deploy.
+
+## 6. No paid AI API
+
+All SQL v6 additions use static JavaScript, local browser storage, deterministic rules and file downloads. No paid AI API is used.

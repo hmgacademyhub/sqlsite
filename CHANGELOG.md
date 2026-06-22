@@ -1,36 +1,61 @@
 # Changelog
 
-## SQL v5 — Searchable Multi-Page Brand-Embedded Release
+## SQL v6 — Final Benchmark-Inspired Enhancement
 
 ### Added
 
-- `persona.html` for Adewale Samson Adeagbo's builder profile.
-- `ecosystem.html` for HMG Concepts, HMG Academy, HMG Technologies, HMG Media and HMG Gospel.
-- `enterprise-suite.html` for indexable enterprise feature explanations.
-- `search.html` and `assets/js/site-search.js` for local platform search.
-- `robots.txt`.
-- `sitemap.xml`.
-- `humans.txt`.
-- Page-level SEO meta tags.
-- Open Graph metadata.
-- Twitter card metadata.
-- JSON-LD structured data.
-- Updated navigation and footer.
-- Updated README, FEATURES and DEPLOYMENT documentation.
+- `practice-arena.html`.
+- `assets/js/practice-arena.js`.
+- `flashcards.html`.
+- `assets/js/flashcards.js`.
+- `portfolio-lab.html`.
+- `assets/js/portfolio-lab.js`.
+- `analytics-engineering.html`.
+- `assets/js/analytics-engineering.js`.
+- `SQL_V6_RESEARCH_AND_VERIFICATION.md`.
+
+### New features
+
+- SQL interview Practice Arena.
+- Timed mock mode.
+- Wrong-answer diagnostics.
+- Skill radar.
+- Local leaderboard.
+- Challenge badges.
+- Spaced repetition flashcards.
+- Dataset catalog.
+- Case-study generator.
+- Reproducibility checklist.
+- Portfolio brief export.
+- dbt-inspired model planner.
+- YAML docs/tests generator.
+- Lineage diagram.
+- Semantic metric ideas.
+- Analytics-engineering skeleton export.
 
 ### Enhanced
 
-- Home page now highlights QueryPilot v9, Enterprise Suite, HMG identity, SEO foundation and local search.
-- Platform is more search-engine friendly through semantic multi-page structure.
-- Brand/persona details from HMG ecosystem sites are embedded directly.
-- Deployment guide now includes SEO post-deployment steps.
+- Home page now highlights new SQL v6 learning loops.
+- Navigation includes Practice, Flashcards, Portfolio Lab and Analytics Engineering.
+- Local search includes new pages.
+- Sitemap includes new pages.
+- Service worker includes new assets.
+- Manifest includes new shortcuts.
+- README, FEATURES and DEPLOYMENT updated.
 
 ### Preserved
 
-- All SQL v4 pages and QueryPilot v9 extracted assets.
+- All SQL v5 pages and features.
+- QueryPilot v9 extraction.
 - QueryFlow v3 Lab.
-- ClassDesk Workbench, Academy, Notebook, Diagnostics and Dashboard.
+- ClassDesk workbench, academy, notebook, diagnostics and dashboard.
+- HMG brand/persona embedding.
+- Search engine readiness.
 - No paid AI API policy.
+
+## SQL v5 — Searchable Multi-Page Brand-Embedded Release
+
+- Added persona, ecosystem, enterprise overview, local search, sitemap, robots, humans and SEO tags.
 
 ## SQL v4 — QueryPilot Extraction
 

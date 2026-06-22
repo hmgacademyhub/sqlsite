@@ -1,8 +1,8 @@
-const CACHE = 'sql-v5-hmg-2026-06-22';
+const CACHE = 'sql-v6-hmg-2026-06-22';
 const ASSETS = [
-  './', './index.html', './workbench.html', './queryflow.html', './querypilot-v9.html', './enterprise-suite.html', './academy.html', './notebook.html', './diagnostics.html', './dashboard.html', './search.html', './persona.html', './ecosystem.html', './about.html', './404.html',
-  './robots.txt', './sitemap.xml', './humans.txt', './README.md', './FEATURES.md', './DEPLOYMENT.md', './ENTERPRISE.md', './LEARNING_HUB.md', './AUTHOR.md', './RECHECK_AND_V4_AUDIT.md', './QUERYFLOW_AUDIT.md',
-  './assets/css/styles.css', './assets/icons/icon.svg', './assets/js/data.js', './assets/js/queryflow-data.js', './assets/js/core.js', './assets/js/sql-engine.js', './assets/js/workbench.js', './assets/js/queryflow.js', './assets/js/academy.js', './assets/js/notebook.js', './assets/js/diagnostics.js', './assets/js/dashboard.js', './assets/js/site-search.js',
+  './', './index.html', './workbench.html', './practice-arena.html', './queryflow.html', './querypilot-v9.html', './analytics-engineering.html', './portfolio-lab.html', './flashcards.html', './enterprise-suite.html', './academy.html', './notebook.html', './diagnostics.html', './dashboard.html', './search.html', './persona.html', './ecosystem.html', './about.html', './404.html',
+  './robots.txt', './sitemap.xml', './humans.txt', './README.md', './FEATURES.md', './DEPLOYMENT.md', './ENTERPRISE.md', './LEARNING_HUB.md', './AUTHOR.md', './RECHECK_AND_V4_AUDIT.md', './QUERYFLOW_AUDIT.md', './SQL_V6_RESEARCH_AND_VERIFICATION.md',
+  './assets/css/styles.css', './assets/icons/icon.svg', './assets/js/data.js', './assets/js/queryflow-data.js', './assets/js/core.js', './assets/js/sql-engine.js', './assets/js/workbench.js', './assets/js/queryflow.js', './assets/js/practice-arena.js', './assets/js/flashcards.js', './assets/js/portfolio-lab.js', './assets/js/analytics-engineering.js', './assets/js/academy.js', './assets/js/notebook.js', './assets/js/diagnostics.js', './assets/js/dashboard.js', './assets/js/site-search.js',
   './qp_assets/app.js', './qp_assets/enterprise.js', './qp_assets/curriculum.js', './qp_assets/curriculum_part2.js', './qp_assets/curriculum_part3.js', './qp_assets/curriculum_part4.js', './qp_assets/learn.js', './qp_assets/styles.css', './qp_assets/enterprise.css', './qp_assets/learn.css'
 ];
 self.addEventListener('install', e => e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(()=>self.skipWaiting())));

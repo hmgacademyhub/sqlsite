@@ -1,16 +1,20 @@
-# Deployment Guide — SQL v5
+# Deployment Guide — SQL v6
 
-SQL v5 is a static, multi-page website. It does not require Streamlit, Python, Node build steps, a backend database, or paid AI APIs.
+SQL v6 is a static, multi-page website. It does not require Streamlit, Python, Node build steps, a backend database, or paid AI APIs.
 
-Deploy the **contents** of the `sql v5` folder.
+Deploy the **contents** of the `sql v6` folder.
 
 ## 1. Required files/folders
 
 ```text
 index.html
 workbench.html
+practice-arena.html
 queryflow.html
 querypilot-v9.html
+analytics-engineering.html
+portfolio-lab.html
+flashcards.html
 enterprise-suite.html
 academy.html
 notebook.html
@@ -32,6 +36,7 @@ sw.js
 README.md
 FEATURES.md
 DEPLOYMENT.md
+SQL_V6_RESEARCH_AND_VERIFICATION.md
 ENTERPRISE.md
 LEARNING_HUB.md
 AUTHOR.md
@@ -40,7 +45,7 @@ AUTHOR.md
 ## 2. Local testing
 
 ```bash
-cd "sql v5"
+cd "sql v6"
 python3 -m http.server 8000
 ```
 
@@ -50,13 +55,17 @@ Open:
 http://localhost:8000
 ```
 
-Test these pages:
+Recommended QA pages:
 
 ```text
 /index.html
 /workbench.html
+/practice-arena.html
 /queryflow.html
 /querypilot-v9.html
+/analytics-engineering.html
+/portfolio-lab.html
+/flashcards.html
 /enterprise-suite.html
 /academy.html
 /notebook.html
@@ -71,7 +80,7 @@ Test these pages:
 ## 3. Cloudflare Pages
 
 1. Create/open a GitHub repository.
-2. Copy the **contents** of `sql v5` into the repository root.
+2. Copy the contents of `sql v6` into the repository root.
 3. Commit and push.
 4. Open Cloudflare Dashboard.
 5. Go to **Workers & Pages**.
@@ -89,14 +98,14 @@ Build output directory: .
 If keeping the folder inside the repo:
 
 ```text
-Build output directory: sql v5
+Build output directory: sql v6
 ```
 
 10. Deploy.
 
 ## 4. Netlify
 
-1. Push the files to GitHub.
+1. Push files to GitHub.
 2. Sign in to Netlify.
 3. Click **Add new site → Import an existing project**.
 4. Select the repository.
@@ -110,7 +119,7 @@ Publish directory: .
 Or:
 
 ```text
-Publish directory: sql v5
+Publish directory: sql v6
 ```
 
 6. Deploy.
@@ -132,7 +141,7 @@ Output directory: .
 Or:
 
 ```text
-Output directory: sql v5
+Output directory: sql v6
 ```
 
 6. Deploy.
@@ -141,7 +150,7 @@ Output directory: sql v5
 
 ### Root method
 
-1. Put SQL v5 files in repository root.
+1. Put SQL v6 files in repository root.
 2. Go to repository **Settings → Pages**.
 3. Source: **Deploy from branch**.
 4. Branch: `main`.
@@ -150,7 +159,7 @@ Output directory: sql v5
 
 ### Docs method
 
-1. Rename/copy `sql v5` to `docs`.
+1. Rename/copy `sql v6` to `docs`.
 2. Push.
 3. Settings → Pages.
 4. Branch: `main`.
@@ -159,32 +168,20 @@ Output directory: sql v5
 
 ## 7. SEO setup after deployment
 
-### If deploying to the original GitHub Pages URL
-
-The included sitemap already uses:
+The included sitemap currently uses:
 
 ```text
 https://hmgacademyhub.github.io/sqlsite/
 ```
 
-### If deploying to another domain
-
-Update all sitemap URLs and the robots sitemap line.
-
-Example:
-
-```text
-https://yourdomain.com/
-```
-
-Files to edit:
+If you deploy elsewhere, update:
 
 ```text
 sitemap.xml
 robots.txt
 ```
 
-Then submit the sitemap to:
+Submit the sitemap to:
 
 - Google Search Console.
 - Bing Webmaster Tools.
@@ -196,7 +193,10 @@ Then submit the sitemap to:
 - `robots.txt` opens.
 - `sitemap.xml` opens.
 - `search.html` returns local results.
-- `persona.html` and `ecosystem.html` show HMG identity.
+- Practice Arena can run/check a challenge.
+- Flashcards can show/rate a card.
+- Portfolio Lab exports a brief.
+- Analytics Engineering Lab exports a skeleton.
 - QueryPilot v9 loads.
 - QueryFlow plain-English query runs.
 - Workbench sample query runs.
@@ -211,4 +211,4 @@ Never put private database passwords or API secrets in frontend files. If privat
 
 ## 10. No AI API policy
 
-SQL v5 uses rules, templates and local heuristics. No paid AI API is required.
+SQL v6 uses rules, templates and local heuristics. No paid AI API is required.
