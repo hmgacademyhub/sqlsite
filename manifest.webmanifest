@@ -1,7 +1,7 @@
 {
   "name": "SQL v6 — HMG SQL Intelligence, Practice and Governance Platform",
   "short_name": "SQL v6",
-  "description": "Searchable multi-page static SQL platform combining ClassDesk, QueryFlow v3, QueryPilot v9, interview practice, flashcards, portfolio lab, analytics engineering, enterprise governance and HMG ecosystem identity. No paid AI API.",
+  "description": "Searchable multi-page static SQL platform combining SQL Workflow For Data Analyst/Data Scientist, QueryFlow v3, QueryPilot v9, interview practice, flashcards, portfolio lab, analytics engineering, enterprise governance and HMG ecosystem identity. No paid AI API.",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0f172a",

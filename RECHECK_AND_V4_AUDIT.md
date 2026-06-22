@@ -395,7 +395,7 @@ The enterprise app records events such as:
 
 ## 5. How SQL v4 includes QueryPilot
 
-SQL v4 preserves the existing ClassDesk and QueryFlow pages, then adds QueryPilot v9 as a full extracted app:
+SQL v4 preserves the existing SQL Workflow For Data Analyst/Data Scientist and QueryFlow pages, then adds QueryPilot v9 as a full extracted app:
 
 ```text
 querypilot-v9.html

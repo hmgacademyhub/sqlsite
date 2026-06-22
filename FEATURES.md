@@ -2,7 +2,7 @@
 
 SQL v4 combines three complementary systems in one deployable static package.
 
-## 1. ClassDesk Core
+## 1. SQL Workflow For Data Analyst/Data Scientist Core
 
 ### Workbench
 

@@ -3,78 +3,280 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="ClassDesk SQL Intelligence: free browser-native SQL workbench, academy, notebook, dashboard and diagnostics suite.">
-  <title>ClassDesk SQL Intelligence | HMG Academy Hub</title>
-<!-- SQLV6 SEO -->
+  <meta name="description" content="SQL Workflow For Data Analyst/Data Scientist: free browser-native SQL workbench, academy, notebook, analytics engineering and diagnostics suite.">
+  <title>SQL Workflow For Data Analyst/Data Scientist | HMG Academy Hub</title>
+<!-- SEO FOUNDATION -->
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="author" content="Adewale Samson Adeagbo, HMG Concepts">
 <meta name="keywords" content="SQL learning, SQL assistant, QueryPilot, QueryFlow, HMG Academy, HMG Technologies, Adewale Samson Adeagbo, data science learning, SQL workbench, no AI API, free SQL platform, Nigeria EdTech">
-<meta property="og:title" content="ClassDesk SQL Intelligence | HMG Academy Hub">
-<meta property="og:description" content="SQL v6 is a free static multi-page SQL intelligence platform combining ClassDesk, QueryFlow v3, QueryPilot v9, enterprise governance and HMG brand identity.">
+<meta property="og:title" content="SQL Workflow For Data Analyst/Data Scientist | HMG Academy Hub">
+<meta property="og:description" content="SQL Workflow For Data Analyst/Data Scientist is a free static multi-page SQL intelligence platform combining Workbench, QueryFlow, QueryPilot, dbt-style modeling, and enterprise governance.">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="SQL v6 — HMG SQL Intelligence">
+<meta property="og:site_name" content="SQL Workflow For Data Analyst/Data Scientist">
 <meta name="twitter:card" content="summary">
 <link rel="canonical" href="./index.html">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"SQL v6 — HMG SQL Intelligence","applicationCategory":"DeveloperApplication","operatingSystem":"Web","description":"SQL v6 is a free static multi-page SQL intelligence platform combining ClassDesk, QueryFlow v3, QueryPilot v9, enterprise governance and HMG brand identity.","creator":{"@type":"Person","name":"Adewale Samson Adeagbo","url":"https://cssadewale.pages.dev"},"publisher":{"@type":"Organization","name":"HMG Concepts","url":"https://hmgconcepts.pages.dev"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"SQL Workflow For Data Analyst/Data Scientist","applicationCategory":"DeveloperApplication","operatingSystem":"Web","description":"SQL Workflow is a free static multi-page SQL intelligence platform combining Workbench, QueryFlow, QueryPilot, dbt-style modeling, and enterprise governance.","creator":{"@type":"Person","name":"Adewale Samson Adeagbo","url":"https://cssadewale.pages.dev"},"publisher":{"@type":"Organization","name":"HMG Concepts","url":"https://hmgconcepts.pages.dev"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
 
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="assets/css/styles.css">
+  <style>
+    /* Home custom roadmap styles */
+    .roadmap {
+      margin: 4rem 0;
+    }
+    .roadmap-step {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+    .roadmap-step::after {
+      content: '';
+      position: absolute;
+      top: 60px;
+      left: 38px;
+      bottom: -40px;
+      width: 4px;
+      background: var(--line);
+      z-index: 1;
+    }
+    .roadmap-step:last-child::after {
+      display: none;
+    }
+    .roadmap-badge {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.2rem;
+      z-index: 2;
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+    }
+    .roadmap-body {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+    .roadmap-body h3 {
+      margin-top: 0;
+      color: var(--brand);
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .roadmap-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .roadmap-subcard {
+      background: var(--panel2);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1rem;
+      transition: all 0.2s ease;
+    }
+    .roadmap-subcard:hover {
+      border-color: var(--brand);
+      transform: translateY(-2px);
+    }
+    .roadmap-subcard h4 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .roadmap-subcard p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin: 0 0 1rem 0;
+      line-height: 1.5;
+    }
+  </style>
 </head>
 <body>
 <nav class="navbar" data-nav></nav>
 <header class="hero">
   <div>
     <span class="eyebrow">💎 HMG Academy Hub · no paid AI API · privacy-first</span>
-    <h1>ClassDesk <span class="gradient">SQL Intelligence</span></h1>
-    <p>A repaired and enterprise-enhanced SQL learning and analysis platform. It keeps your original Workbench, Notebook, Academy, Diagnostics, Dashboard and HMG ecosystem story, then adds project portability, guided challenges, offline fallback, governance tools, reports, audit logs and free rule-based intelligence.</p>
+    <h1>SQL Workflow <span class="gradient">For Analysts & Scientists</span></h1>
+    <p>A unified, professional-grade sandbox guiding you from absolute novice to enterprise-ready practitioner. This platform structures the complete SQL data lifecycle—including ingestion, exploration, dbt-style modeling, notebook reporting, diagnostics, and secure governance.</p>
     <div class="hero-actions">
-      <a class="btn-primary" href="workbench.html">Launch Workbench</a>
-      <a class="btn-secondary" href="queryflow.html">Open QueryFlow v3 Lab</a>
+      <a class="btn-primary" href="academy.html">Start Academy (Novice)</a>
+      <a class="btn-secondary" href="workbench.html">Launch Workbench (IDE)</a>
       <a class="btn-secondary" href="querypilot-v9.html">Open QueryPilot v9</a>
-      <a class="btn-secondary" href="academy.html">Start Academy</a>
-      <a class="btn-ghost" href="FEATURES.md">Read feature guide</a>
+      <a class="btn-secondary" href="analytics-engineering.html">dbt Analytics Lab</a>
     </div>
   </div>
   <div class="hero-visual" aria-hidden="true">
     <div class="orb a"></div><div class="orb b"></div>
     <div class="glass-card mock-window">
       <div class="mock-title"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-      <pre class="code"><code>SELECT department,
-       ROUND(AVG(score), 1) AS avg_score,
-       COUNT(*) AS learners
-FROM learners
-WHERE status = 'Active'
-GROUP BY department
-ORDER BY avg_score DESC;</code></pre>
-      <div class="notice ok" style="margin-top:1rem">Profiler: index-friendly query · 42 ms · dashboard pin ready</div>
+      <pre class="code"><code>SELECT role,
+       COUNT(*) AS total_analysts,
+       ROUND(AVG(sql_score), 2) AS skill_avg
+FROM hmg_data_scientists
+WHERE level IN ('Intermediate', 'Expert')
+GROUP BY role
+ORDER BY skill_avg DESC;</code></pre>
+      <div class="notice ok" style="margin-top:1rem">Profiler: index-friendly query · 18 ms · workspace synced</div>
     </div>
-    <div class="glass-card metric-card"><span class="muted">Local-only modules</span><strong>50+</strong><p class="muted">lessons, patterns and diagnostics</p></div>
+    <div class="glass-card metric-card"><span class="muted">SQL Workflow Modules</span><strong>17+</strong><p class="muted">Interconnected tools & labs</p></div>
   </div>
 </header>
+
 <section class="section">
-  <div class="section-head"><div><span class="pill">Enhanced platform</span><h2>What is inside ClassDesk?</h2></div><a class="btn" href="DEPLOYMENT.md">Deployment guide</a></div>
-  <div class="grid cards">
-    <article class="card"><div class="icon">🛠️</div><h3>SQL Workbench</h3><p class="muted">Run SQL in-browser, upload CSVs, view schema, build queries visually, export reports, benchmark, explain and pin charts.</p><a href="workbench.html" class="btn-small">Open</a></article>
-    <article class="card"><div class="icon">🧩</div><h3>QueryFlow v3 Lab</h3><p class="muted">Static no-code SQL suite: multi-source data, advanced builder, plain-English rules, pivot, profiler, insights, share links and saved history.</p><a href="queryflow.html" class="btn-small">Explore</a></article>
-    <article class="card"><div class="icon">⚡</div><h3>QueryPilot v9 Console</h3><p class="muted">Full extracted QueryPilot app: 11 SQL modes, 8 tools, 25 enterprise features, 118-lesson Data Science Learning Hub, PWA, shortcuts and offline rules.</p><a href="querypilot-v9.html" class="btn-small">Launch</a></article>
-    <article class="card"><div class="icon">🏢</div><h3>Enterprise Suite</h3><p class="muted">Governance, RBAC, audit, PII scanner, approvals, lineage, linter, migration, vault and compliance explanations.</p><a href="enterprise-suite.html" class="btn-small">Review</a></article>
-    <article class="card"><div class="icon">🏁</div><h3>Practice Arena</h3><p class="muted">Interview-style SQL challenges with timed mock mode, wrong-answer diagnostics, skill radar, badges and local leaderboard.</p><a href="practice-arena.html" class="btn-small">Practise</a></article>
-    <article class="card"><div class="icon">🎓</div><h3>Academy Hub</h3><p class="muted">Certification tracks, bite-sized exercises, expected result checking, hints, progress, streaks and badges.</p><a href="academy.html" class="btn-small">Learn</a></article>
-    <article class="card"><div class="icon">📓</div><h3>Analysis Notebook</h3><p class="muted">Markdown, SQL and chart cells for reproducible data stories with exportable HTML reports.</p><a href="notebook.html" class="btn-small">Create</a></article>
-    <article class="card"><div class="icon">🔎</div><h3>Diagnostics</h3><p class="muted">SQL linting, complexity score, error explainer, dialect translator, diff, security and data quality checklist.</p><a href="diagnostics.html" class="btn-small">Diagnose</a></article>
+  <div class="section-head">
+    <div>
+      <span class="pill">Unified Learning Loop</span>
+      <h2>The Structured 6-Phase Career Path</h2>
+      <p class="muted">Follow this step-by-step roadmap designed by experts to advance from a SQL beginner to an enterprise-grade professional.</p>
+    </div>
+    <a class="btn" href="DEPLOYMENT.md">Deployment guide</a>
+  </div>
+
+  <div class="roadmap">
+    <!-- Step 1 -->
+    <div class="roadmap-step">
+      <div class="roadmap-badge">Phase 1</div>
+      <div class="roadmap-body">
+        <h3>🎓 Core Foundation & Onboarding (Beginner)</h3>
+        <p>Acquire core SQL syntax, understand tables, columns, rows, and master selective filters.</p>
+        <div class="roadmap-cards">
+          <div class="roadmap-subcard">
+            <h4>📖 Academy Hub</h4>
+            <p>Bite-sized challenges starting with simple SELECT queries, built-in expected checking, and visual stars.</p>
+            <a href="academy.html" class="btn-small">Learn Now</a>
+          </div>
+          <div class="roadmap-subcard">
+            <h4>⚡ QueryPilot v9 Learning Hub</h4>
+            <p>An exhaustive 118-lesson curriculum containing 11 specialized execution modes and structured notes.</p>
+            <a href="querypilot-v9.html" class="btn-small">Launch Hub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="roadmap-step">
+      <div class="roadmap-badge">Phase 2</div>
+      <div class="roadmap-body">
+        <h3>🧠 Memory Reinforcement (Beginner/Intermediate)</h3>
+        <p>Reinforce your database concepts, join mechanics, schema performance guidelines, and vocabulary.</p>
+        <div class="roadmap-cards">
+          <div class="roadmap-subcard">
+            <h4>💡 Spaced Flashcards</h4>
+            <p>Review and rate yourself on JOIN criteria, aggregation rules, performance indicators, and schema concepts.</p>
+            <a href="flashcards.html" class="btn-small">Review terms</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="roadmap-step">
+      <div class="roadmap-badge">Phase 3</div>
+      <div class="roadmap-body">
+        <h3>🏁 Realistic Interview Practice (Intermediate)</h3>
+        <p>Prepare for real technical tests using actual interview-style questions, performance metrics, and timed assessments.</p>
+        <div class="roadmap-cards">
+          <div class="roadmap-subcard">
+            <h4>🎯 Practice Arena</h4>
+            <p>Features difficulty tags, automatic exact-output checks, skill-coverage radar, and timed mock assessments.</p>
+            <a href="practice-arena.html" class="btn-small">Enter Arena</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="roadmap-step">
+      <div class="roadmap-badge">Phase 4</div>
+      <div class="roadmap-body">
+        <h3>🛠️ Core Workspace & Data Ingestion (Intermediate/Professional)</h3>
+        <p>Upload raw datasets, run analytical commands, build SQL with visual blocks, and execute natural-language queries.</p>
+        <div class="roadmap-cards">
+          <div class="roadmap-subcard">
+            <h4>💻 SQL Workbench</h4>
+            <p>Browser SQL IDE supporting CSV uploads, schema trees, live SQLite engines, visual charting, and export tools.</p>
+            <a href="workbench.html" class="btn-small">Open IDE</a>
+          </div>
+          <div class="roadmap-subcard">
+            <h4>🧩 QueryFlow v3 Static Lab</h4>
+            <p>No-code visual query builder, text-to-SQL logic, automatic profiler, pivot table engine, and insight reports.</p>
+            <a href="queryflow.html" class="btn-small">Explore Lab</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="roadmap-step">
+      <div class="roadmap-badge">Phase 5</div>
+      <div class="roadmap-body">
+        <h3>🧱 Engineering, Reporting & Portfolio (Professional)</h3>
+        <p>Organize raw statements into dbt-style tables, document data lineage, build dashboards, and export portfolio briefs.</p>
+        <div class="roadmap-cards">
+          <div class="roadmap-subcard">
+            <h4>🏗️ Analytics Engineering Lab</h4>
+            <p>dbt-style modeling sandbox supporting modular SQL generation, YAML schemas, tests, and graphical dependency lineage.</p>
+            <a href="analytics-engineering.html" class="btn-small">Model Data</a>
+          </div>
+          <div class="roadmap-subcard">
+            <h4>📓 Analysis Notebook</h4>
+            <p>Markdown and SQL combined cells for interactive reproducible data stories. Exportable to raw standalone HTML.</p>
+            <a href="notebook.html" class="btn-small">Write Notebook</a>
+          </div>
+          <div class="roadmap-subcard">
+            <h4>📊 Executive Dashboard</h4>
+            <p>Centralized corporate console displays your pinned workbench queries, diagnostic KPI meters, and live trends.</p>
+            <a href="dashboard.html" class="btn-small">View Dashboard</a>
+          </div>
+          <div class="roadmap-subcard">
+            <h4>📦 Portfolio Lab</h4>
+            <p>Access predefined business problem sets, dataset guides, and export structured professional cases to your resume.</p>
+            <a href="portfolio-lab.html" class="btn-small">Build Case</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 6 -->
+    <div class="roadmap-step">
+      <div class="roadmap-badge">Phase 6</div>
+      <div class="roadmap-body">
+        <h3>🏢 Diagnostics & Enterprise Governance (Expert)</h3>
+        <p>Enforce security standards, check compatibility, review compliance guidelines, and scan sensitive data.</p>
+        <div class="roadmap-cards">
+          <div class="roadmap-subcard">
+            <h4>🔎 SQL Diagnostics Suite</h4>
+            <p>Automatic query complexity analyzer, SQL linter, dialect translator, diff generator, and data quality checklist.</p>
+            <a href="diagnostics.html" class="btn-small">Run Audit</a>
+          </div>
+          <div class="roadmap-subcard">
+            <h4>🏢 Enterprise Suite</h4>
+            <p>Role-Based Access Control (RBAC), automatic PII masking scanner, audit logs, credential vault, and change approvals.</p>
+            <a href="enterprise-suite.html" class="btn-small">Review Suite</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
+
 <section class="section">
-  <div class="section-head"><div><span class="pill">New in SQL v6 · benchmark-inspired</span><h2>More learning loops and portfolio workflows</h2></div></div>
-  <div class="grid cards">
-    <article class="card"><h3>🏁 Interview Practice Arena</h3><p class="muted">Difficulty filters, skill tags, exact output diagnostics, timed mock mode and a local leaderboard.</p><a class="btn-small" href="practice-arena.html">Open Arena</a></article>
-    <article class="card"><h3>🧠 Spaced Flashcards</h3><p class="muted">Review SQL, joins, windows, governance, dbt-style testing and performance vocabulary.</p><a class="btn-small" href="flashcards.html">Review</a></article>
-    <article class="card"><h3>📦 Portfolio Lab</h3><p class="muted">Dataset catalog, business questions, reproducibility checklist and portfolio brief export.</p><a class="btn-small" href="portfolio-lab.html">Build Portfolio</a></article>
-    <article class="card"><h3>🧱 Analytics Engineering Lab</h3><p class="muted">Generate dbt-style model SQL, YAML tests/docs, lineage and metric ideas using only static tools.</p><a class="btn-small" href="analytics-engineering.html">Model Data</a></article>
-  </div>
-</section>
-<section class="section">
-  <div class="section-head"><div><span class="pill">Searchable · brand-embedded · multi-page</span><h2>HMG identity built into the platform</h2></div></div>
+  <div class="section-head"><div><span class="pill">Searchable · brand-embedded · multi-page</span><h2>HMG Identity & Local Search</h2></div></div>
   <div class="grid cards">
     <article class="card"><h3>👤 Builder profile</h3><p class="muted">Adewale Samson Adeagbo's identity, skills, projects, teaching story and HMG role are embedded for visitors and search engines.</p><a class="btn-small" href="persona.html">Meet builder</a></article>
     <article class="card"><h3>🌐 HMG ecosystem</h3><p class="muted">HMG Concepts, Academy, Technologies, Media and Gospel are explained as one coherent brand system.</p><a class="btn-small" href="ecosystem.html">Explore ecosystem</a></article>
@@ -82,8 +284,9 @@ ORDER BY avg_score DESC;</code></pre>
     <article class="card"><h3>🔍 Local search</h3><p class="muted">Users can search platform pages, tools, enterprise features, docs and learning sections directly in the browser.</p><a class="btn-small" href="search.html">Search</a></article>
   </div>
 </section>
+
 <section class="section">
-  <div class="section-head"><div><span class="pill">Enterprise/free-based additions</span><h2>Built for classrooms and teams</h2></div></div>
+  <div class="section-head"><div><span class="pill">Enterprise/free-based additions</span><h2>Built for Classrooms & Teams</h2></div></div>
   <div class="grid cards">
     <article class="card"><h3>Project portability</h3><p class="muted">Export/import a single .hmg.json project containing settings, notebooks, snippets, audit logs and dashboard pins.</p></article>
     <article class="card"><h3>No AI API required</h3><p class="muted">Uses deterministic rules, templates, pattern matching and SQL static analysis. Optional sql.js CDN is free and replaceable.</p></article>
@@ -91,6 +294,7 @@ ORDER BY avg_score DESC;</code></pre>
     <article class="card"><h3>PWA-ready</h3><p class="muted">Manifest and service worker enable installability and a cached static experience on GitHub Pages/Cloudflare Pages.</p></article>
   </div>
 </section>
+
 <footer class="footer" data-footer></footer>
 <script src="assets/js/data.js"></script><script src="assets/js/queryflow-data.js"></script>
 <script src="assets/js/core.js"></script>

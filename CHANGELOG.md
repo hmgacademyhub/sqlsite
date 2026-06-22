@@ -48,7 +48,7 @@
 - All SQL v5 pages and features.
 - QueryPilot v9 extraction.
 - QueryFlow v3 Lab.
-- ClassDesk workbench, academy, notebook, diagnostics and dashboard.
+- SQL Workflow For Data Analyst/Data Scientist workbench, academy, notebook, diagnostics and dashboard.
 - HMG brand/persona embedding.
 - Search engine readiness.
 - No paid AI API policy.
@@ -65,6 +65,6 @@
 
 - Added static QueryFlow v3 Lab and QueryFlow repository features.
 
-## ClassDesk 1.0.0
+## SQL Workflow For Data Analyst/Data Scientist 1.0.0
 
 - Repaired earlier static SQL site and added core workbench/academy/notebook/diagnostics/dashboard features.

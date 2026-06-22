@@ -1,4 +1,4 @@
-# ClassDesk SQL Intelligence — Site/Repository Diagnosis & Remediation Report
+# SQL Workflow For Data Analyst/Data Scientist SQL Intelligence — Site/Repository Diagnosis & Remediation Report
 
 Date: 2026-06-22  
 Original site reviewed: `https://hmgacademyhub.github.io/sqlsite/`  
@@ -8,11 +8,11 @@ Original repository reviewed: `https://github.com/hmgacademyhub/sqlsite`
 
 The original project presents a strong product vision, but the repository is not deployable in its current form. Multiple page and asset filenames are corrupted, many referenced JavaScript modules do not exist, and key pages therefore break when accessed from GitHub Pages. The public landing page appears partially available because `index.html` exists, but most linked features depend on missing/misnamed files.
 
-This `classdesk` folder is a repaired and enhanced static replacement that preserves the original feature intent: Home, Workbench, Notebook, Academy, Diagnostics, Dashboard and About. It adds enterprise-quality free-based features while avoiding paid AI APIs.
+This `sql-workflow` folder is a repaired and enhanced static replacement that preserves the original feature intent: Home, Workbench, Notebook, Academy, Diagnostics, Dashboard and About. It adds enterprise-quality free-based features while avoiding paid AI APIs.
 
 ## Critical bugs found
 
-| Severity | Issue | Evidence | Fix applied in ClassDesk |
+| Severity | Issue | Evidence | Fix applied in SQL Workflow For Data Analyst/Data Scientist |
 |---|---|---|---|
 | Critical | Corrupted filenames | Files such as `academy.html`} hypothalamic response_write_file{content_{status_` and `style.css`} hypothalamic response_write_file{content_{status_` exist instead of `academy.html` and `style.css`. | Recreated clean filenames for all pages and assets. |
 | Critical | Missing scripts | README references `datasets.js`, `utils.js`, `pilot.js`, `script-academy.js`, `script-dashboard.js`, `script-diagnostics.js`, but they were absent. | Implemented `assets/js/data.js`, `core.js`, `sql-engine.js`, `workbench.js`, `academy.js`, `notebook.js`, `diagnostics.js`, `dashboard.js`. |
@@ -44,8 +44,8 @@ This `classdesk` folder is a repaired and enhanced static replacement that prese
 
 1. Back up the current repo.
 2. Delete corrupted duplicate files whose names contain `hypothalamic response_write_file` or other accidental tool-output fragments.
-3. Copy the contents of this `classdesk` folder into the repo root, or deploy `classdesk` as the selected publishing folder.
-4. Commit with a clear message: `repair static SQL platform and add ClassDesk enterprise features`.
+3. Copy the contents of this `sql-workflow` folder into the repo root, or deploy `sql-workflow` as the selected publishing folder.
+4. Commit with a clear message: `repair static SQL platform and add SQL Workflow For Data Analyst/Data Scientist enterprise features`.
 5. Enable GitHub Pages from the selected branch/folder.
 
 ## Test checklist

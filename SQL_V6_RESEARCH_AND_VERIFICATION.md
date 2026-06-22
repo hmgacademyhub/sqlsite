@@ -6,7 +6,7 @@ Date: 2026-06-22
 
 SQL v6 was built from SQL v5, which already preserved:
 
-- ClassDesk SQL Intelligence features.
+- SQL Workflow For Data Analyst/Data Scientist SQL Intelligence features.
 - QueryFlow v3 features extracted from the submitted Streamlit repository.
 - QueryPilot v9 static PWA features extracted from the submitted Vercel site.
 - HMG/persona/brand details from the submitted HMG ecosystem sites.

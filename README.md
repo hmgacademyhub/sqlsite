@@ -4,7 +4,7 @@ SQL v6 is the final enhanced multi-page static package. It preserves SQL v5 and 
 
 ## What SQL v6 combines
 
-1. **ClassDesk SQL Intelligence** — workbench, academy, notebook, diagnostics and dashboard.
+1. **SQL Workflow For Data Analyst/Data Scientist Platform** — workbench, academy, notebook, diagnostics and dashboard.
 2. **QueryFlow v3 Static Lab** — no-code SQL, profiler, pivot, insights, sharing and saved history.
 3. **QueryPilot v9 Console** — extracted PWA with 11 SQL modes, 8 tools, 25 enterprise features and a 118-lesson Data Science Learning Hub.
 4. **SQL Practice Arena** — interview-style challenges, timed mocks, wrong-answer diagnostics, skill radar and local leaderboard.
