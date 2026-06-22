@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+<meta name="theme-color" content="#0e1117"/>
+<meta name="description" content="QueryPilot v9 — Free, offline, no-API SQL assistant by Adewale Samson Adeagbo (HMG Concepts, Lagos). 25 enterprise features (workspaces, RBAC, governance, audit, PII, vault) + 118-lesson Data Science Learning Hub (zero-to-expert). Natural-language to SQL, visual builders, 8 SQL tools, PWA installable."/>
+<meta name="author" content="Adewale Samson Adeagbo — HMG Concepts, Lagos, Nigeria"/>
+<meta name="creator" content="Adewale Samson Adeagbo"/>
+<meta name="publisher" content="HMG Concepts (His Marvellous Grace Educational Consult)"/>
+<meta property="og:title" content="QueryPilot v9 — Free SQL Assistant + Data Science Learning Hub"/>
+<meta property="og:description" content="Built by Adewale Samson Adeagbo (HMG Concepts, Lagos). 25 enterprise features + 118-lesson curriculum. Plain-English to SQL, 100% offline, no API, no subscription, PWA installable."/>
+<meta property="og:type" content="website"/>
+<meta property="og:locale" content="en_NG"/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@cssadewale"/>
+<title>QueryPilot v9 — Free SQL Assistant + Data Science Learning Hub</title>
+<!-- SQLV5 SEO -->
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="Adewale Samson Adeagbo, HMG Concepts">
+<meta name="keywords" content="SQL learning, SQL assistant, QueryPilot, QueryFlow, HMG Academy, HMG Technologies, Adewale Samson Adeagbo, data science learning, SQL workbench, no AI API, free SQL platform, Nigeria EdTech">
+<meta property="og:title" content="QueryPilot v9 — Free SQL Assistant + Data Science Learning Hub">
+<meta property="og:description" content="Extracted QueryPilot v9 console with SQL modes, enterprise features, Learning Hub, PWA support and no paid AI API.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SQL v5 — HMG SQL Intelligence">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="./querypilot-v9.html">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"SQL v5 — HMG SQL Intelligence","applicationCategory":"DeveloperApplication","operatingSystem":"Web","description":"Extracted QueryPilot v9 console with SQL modes, enterprise features, Learning Hub, PWA support and no paid AI API.","creator":{"@type":"Person","name":"Adewale Samson Adeagbo","url":"https://cssadewale.pages.dev"},"publisher":{"@type":"Organization","name":"HMG Concepts","url":"https://hmgconcepts.pages.dev"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+
+<link rel="manifest" href="querypilot-manifest.json"/>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%233fb950'/><text x='50%25' y='58%25' font-size='38' text-anchor='middle' fill='white' font-family='Arial'>%E2%9A%A1</text></svg>"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Sora:wght@400;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="qp_assets/styles.css"/>
+<link rel="stylesheet" href="qp_assets/enterprise.css"/>
+<link rel="stylesheet" href="qp_assets/learn.css"/>
+</head>
+<body>
+<a href="index.html" style="position:fixed;left:10px;bottom:10px;z-index:99999;background:#0e1117;color:#3fb950;border:1px solid #3fb950;border-radius:999px;padding:8px 12px;text-decoration:none;font:12px Arial">← SQL v4 Home</a>
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<div id="hdr">
+  <div class="logo" aria-hidden="true">&#9889;</div>
+  <span class="aname">QueryPilot</span><span class="atag">v9 &middot; Enterprise + Learn Hub &middot; offline &middot; free</span>
+  <div class="sp"></div>
+  <button class="hb" id="ws-chip" onclick="QPE.openWS()" title="Switch workspace" aria-label="Workspaces">📁 Default</button>
+  <button class="hb" id="role-chip" onclick="QPE.openRoles()" title="Switch role" aria-label="Roles">👑 Admin</button>
+  <button class="hb" id="hub-chip" onclick="setMode('hub',document.querySelector('.mt-hub'))" title="Learning progress" aria-label="Learning Hub">🎓 0%</button>
+  <button class="hb" onclick="toggleSearch()" title="Search results (Ctrl+F)" aria-label="Search results">&#128269;</button>
+  <button class="hb" onclick="toggleSB()" aria-label="Toggle sidebar">&#8862; Panel</button>
+  <button class="hb" id="tbtn" onclick="cycleTheme()" title="Cycle theme" aria-label="Cycle theme">&#127769;</button>
+  <button class="hb" onclick="openShortcuts()" title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">&#9000;</button>
+  <button class="hb" onclick="openSettings()" title="Settings" aria-label="Settings">&#9881;</button>
+  <button class="hb" onclick="document.getElementById('mod').classList.add('on')" aria-label="Help">&#10067; Help</button>
+  <button class="hb" onclick="openAbout()" title="About the builder" aria-label="About the builder">&#128100;</button>
+  <span class="badge">FREE &middot; OFFLINE</span>
+</div>
+
+<div id="body">
+<aside id="sb" aria-label="Sidebar">
+  <div class="stabs" role="tablist">
+    <button class="stab on" onclick="spanel('schema',this)" role="tab">Schema</button>
+    <button class="stab" onclick="spanel('ws',this)" role="tab" title="Workspaces">📁 WS</button>
+    <button class="stab" onclick="spanel('csv',this)" role="tab">CSV</button>
+    <button class="stab" onclick="spanel('tpl',this)" role="tab">Tpl</button>
+    <button class="stab" onclick="spanel('udt',this)" role="tab" title="Your saved templates">Mine</button>
+    <button class="stab" onclick="spanel('snip',this)" role="tab" title="Reusable SQL snippets">Snip</button>
+    <button class="stab" onclick="spanel('bk',this)" role="tab">Saved</button>
+    <button class="stab" onclick="spanel('hist',this)" role="tab">Hist</button>
+    <button class="stab" onclick="spanel('cs',this)" role="tab">Cheat</button>
+  </div>
+
+  <div id="sp-schema" class="sc" role="tabpanel">
+    <span class="lb">Database Schema</span>
+    <textarea id="schema-ta" class="sta" aria-label="Schema definition" placeholder="One table per line&#10;orders(id,total,status,date)&#10;customers(id,name,email)">customers(id, name, email, region, status, created_at)
+orders(id, customer_id, total, status, created_at)
+products(id, name, category, price, stock)
+employees(id, name, department, salary, status, hire_date)
+invoices(id, customer_id, amount, due_date, status)</textarea>
+    <select id="dialect" class="fsl" onchange="onDC()" aria-label="SQL dialect">
+      <option>Standard SQL</option><option>PostgreSQL</option><option>MySQL</option>
+      <option>SQLite</option><option>SQL Server</option><option>BigQuery</option>
+      <option>Snowflake</option><option>Oracle</option>
+    </select>
+    <div class="ib"><strong>Format:</strong> table(col1,col2)<br>One table per line.<br>Accurate columns = better generated SQL.</div>
+    <button class="addb" onclick="saveSchema()">&#128190; Save Schema Locally</button>
+    <button class="addb" onclick="loadSchema()">&#128196; Load Saved Schema</button>
+    <button class="addb" onclick="exportSchema()">&#11015; Export Schema (.json)</button>
+    <button class="addb" onclick="document.getElementById('schimp').click()">&#11014; Import (.json or .sql)</button>
+    <input type="file" id="schimp" accept=".json,.sql,.txt" style="display:none" onchange="importSchema(this.files[0])"/>
+    <button class="addb" onclick="shareByURL()">&#128279; Copy Shareable URL</button>
+    <button class="addb" onclick="clearSchema()">&#128465; Clear Schema</button>
+  </div>
+
+  
+  <div id="sp-ws" class="sc" style="display:none" role="tabpanel">
+    <span class="lb">📁 Workspaces <span class="ent-pill green" style="font-size:9px;padding:1px 6px">v8</span></span>
+    <div class="ib" style="font-size:11px;line-height:1.7">Isolated environments — each has its own schema, queries, snippets, history and audit context. Switching is instant. Multi-tab synced.</div>
+    <div id="ws-list" style="margin-top:8px"></div>
+    <div style="border-top:1px solid var(--bd);margin-top:14px;padding-top:12px">
+      <span class="lb" style="font-size:9px">Create New</span>
+      <input id="ws-new-name" class="fin" placeholder="Workspace name" style="margin-top:6px"/>
+      <input id="ws-new-desc" class="fin" placeholder="Description (optional)" style="margin-top:6px"/>
+      <button class="addb" onclick="QPE.uiCreateWorkspace()" style="margin-top:8px" data-rbac-perm="workspace.create">➕ Create Workspace</button>
+    </div>
+    <div style="margin-top:14px"><button class="addb" onclick="setMode('ent',document.querySelector('.mt-ent'))">🏢 Open Full Enterprise Console →</button></div>
+  </div>
+
+  <div id="sp-csv" class="sc" style="display:none" role="tabpanel">
+    <span class="lb">CSV &#8594; Auto Schema</span>
+    <div class="dz" id="dz" onclick="document.getElementById('csvf').click()"
+      ondragover="event.preventDefault();this.classList.add('ov')"
+      ondragleave="this.classList.remove('ov')" ondrop="onDrop(event)">
+      <div class="dzi">&#128196;</div>
+      <div class="dzt"><strong>Click or drag a CSV file</strong><br>Auto-detects columns &amp; types</div>
+    </div>
+    <input type="file" id="csvf" accept=".csv" style="display:none" onchange="onCSV(this.files[0])"/>
+    <div id="csvr"></div>
+  </div>
+
+  <div id="sp-tpl" class="sc" style="display:none" role="tabpanel">
+    <span class="lb">Query Templates</span>
+    <input id="tplsearch" class="fin" placeholder="Search templates..." style="margin-bottom:9px" oninput="renderTpl(window._tplCat||'All',this.value)"/>
+    <div class="catbar" id="catbar"></div>
+    <div id="tpllist"></div>
+  </div>
+
+  <div id="sp-udt" class="sc" style="display:none" role="tabpanel">
+    <span class="lb">Your Saved Templates</span>
+    <div class="ib">Save any chat query as a reusable template. Lives in browser storage.</div>
+    <div style="display:flex;gap:6px;margin-top:8px;margin-bottom:8px">
+      <input id="udt-name" class="fin" placeholder="Template name" style="flex:1"/>
+    </div>
+    <textarea id="udt-q" class="sta" style="height:70px" placeholder="What query? e.g. 'top 5 customers by revenue this month'"></textarea>
+    <button class="addb" onclick="addUDT()">&#10133; Add Template</button>
+    <div id="udt-list" style="margin-top:10px"></div>
+  </div>
+
+  <div id="sp-snip" class="sc" style="display:none" role="tabpanel">
+    <span class="lb">SQL Snippets</span>
+    <div class="ib">Reusable SQL fragments (e.g. common WHERE clauses, JOIN patterns).</div>
+    <input id="snip-name" class="fin" placeholder="Snippet name" style="margin-top:8px"/>
+    <textarea id="snip-body" class="sta" style="height:80px;margin-top:6px" placeholder="WHERE status = 'active' AND created_at >= CURRENT_DATE - INTERVAL '30 days'"></textarea>
+    <button class="addb" onclick="addSnip()">&#10133; Add Snippet</button>
+    <div id="snip-list" style="margin-top:10px"></div>
+  </div>
+
+  <div id="sp-bk" class="sc" style="display:none" role="tabpanel">
+    <span class="lb">Saved Queries</span>
+    <input id="bksearch" class="fin" placeholder="Search title or tag..." style="margin-bottom:9px" oninput="renderBK(this.value)"/>
+    <div id="bklist"></div>
+    <div style="display:flex;gap:6px;margin-top:8px">
+      <button class="addb" onclick="exportAllSQL()" style="flex:1">&#128228; Export All</button>
+      <button class="addb" onclick="printLibrary()" style="flex:1">&#128424; Print PDF</button>
+    </div>
+  </div>
+
+  <div id="sp-hist" class="sc" style="display:none" role="tabpanel">
+    <span class="lb">History <span id="hcount" style="color:var(--mu);font-weight:400">(0)</span></span>
+    <input id="histsearch" class="fin" placeholder="Search history..." style="margin-bottom:9px" oninput="renderHist(this.value)"/>
+    <div class="hist-tools">
+      <button onclick="exportHistorySQL()" title="Export history to .sql">&#128228; .sql</button>
+      <button onclick="exportHistoryJSON()" title="Export history to .json">&#123;&#125; .json</button>
+      <button onclick="clearHist()" title="Clear all history">&#128465; Clear</button>
+    </div>
+    <div id="histlist"></div>
+  </div>
+
+  <div id="sp-cs" class="sc" style="display:none" role="tabpanel">
+    <span class="lb">SQL Cheatsheet</span>
+    <div id="cs-content"></div>
+  </div>
+</aside>
+
+<main id="main">
+  <div id="mbar" role="tablist">
+    <button class="mt on" onclick="setMode('chat',this)" role="tab">&#128172; Ask</button>
+    <button class="mt" onclick="setMode('vqb',this)" role="tab">&#128296; Visual</button>
+    <button class="mt" onclick="setMode('join',this)" role="tab">&#128279; JOIN</button>
+    <button class="mt" onclick="setMode('sq',this)" role="tab">&#8853; Subquery</button>
+    <button class="mt" onclick="setMode('multi',this)" role="tab" title="3+ tables">&#8862; Multi-JOIN</button>
+    <button class="mt" onclick="setMode('diff',this)" role="tab">&#8644; Compare</button>
+    <button class="mt" onclick="setMode('tools',this)" role="tab">&#128295; Tools</button>
+    <button class="mt" onclick="setMode('learn',this)" role="tab" title="Original 17 SQL lessons">&#127979; Learn</button>
+    <button class="mt mt-hub" onclick="setMode('hub',this)" role="tab" title="Full curriculum: Data Science from Zero to Expert"><span style="color:var(--pu)">🎓</span> Hub</button>
+    <button class="mt" onclick="setMode('export',this)" role="tab">&#128228; Export</button>
+    <button class="mt mt-ent" onclick="setMode('ent',this)" role="tab" title="Enterprise Console (v8)">🏢 Enterprise</button>
+  </div>
+
+  <div id="statsbar">
+    <span>&#9889; <span class="sv" id="sq2">0</span> queries</span>
+    <span>&#9201; <span class="sv" id="ss">0m</span></span>
+    <span>&#128203; <span class="sv" id="st">5</span> tables</span>
+    <span>&#11088; <span class="sv" id="sbk">0</span> saved</span>
+    <span>&#128202; <span class="sv" id="sd">Standard</span></span>
+    <span style="margin-left:auto;color:var(--mu);font-size:10px">Tip: press <kbd style="background:var(--sf);padding:1px 5px;border-radius:3px;border:1px solid var(--bd)">?</kbd> for shortcuts</span>
+  </div>
+
+  <div id="search-bar">
+    <input id="search-inp" placeholder="Search in results..." oninput="doSearch(this.value)"/>
+    <span class="search-count" id="search-count"></span>
+    <button class="hb" onclick="toggleSearch()">&#10005;</button>
+  </div>
+
+  <!-- CHAT PANEL -->
+  <div id="cpanel" class="on">
+    <div id="chatmsgs">
+      <div class="es">
+        <div class="ei">&#9889;</div>
+        <div class="et">Ask anything about your data</div>
+        <div class="ed">Type a question in plain English and get a complete SQL query. 45+ patterns including dates, aggregates, JOINs, CTEs, window functions, pivot, year-over-year, cohort, rolling averages and more.</div>
+        <div class="chips">
+          <button class="chip" onclick="send('Top 10 customers by total revenue last month')">Top 10 customers</button>
+          <button class="chip" onclick="send('Count orders by status')">Count orders by status</button>
+          <button class="chip" onclick="send('Find duplicate emails')">Duplicate emails</button>
+          <button class="chip" onclick="send('Average salary by department')">Avg salary by dept</button>
+          <button class="chip" onclick="send('Rank employees by salary')">Rank employees</button>
+          <button class="chip" onclick="send('Year over year revenue growth')">YoY growth</button>
+          <button class="chip" onclick="send('Rolling 7 day average of orders')">Rolling avg</button>
+          <button class="chip" onclick="send('Pivot revenue by month')">Pivot</button>
+        </div>
+        <div style="margin-top:24px;font-size:11px;color:var(--mu);line-height:1.7;max-width:430px">
+          Built by <a href="https://cssadewale.pages.dev" target="_blank" rel="noopener" style="color:var(--ac);text-decoration:none;font-weight:600">Adewale Samson Adeagbo</a>
+          &middot; <a href="https://hmgconcepts.pages.dev" target="_blank" rel="noopener" style="color:var(--ac);text-decoration:none">HMG Concepts</a>
+          &middot; Lagos, Nigeria &middot;
+          <button onclick="openAbout()" style="background:none;border:none;color:var(--ac);cursor:pointer;font-size:11px;text-decoration:underline;padding:0;font-family:inherit">About the builder</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="vpanel">
+    <div class="bw">
+      <div class="btit">&#128296; Visual Query Builder</div>
+      <div class="bsub">Build a complete SQL query step by step using dropdowns and forms. Every field has a tooltip. Column data types are shown. No SQL knowledge required. The SQL preview updates live at every step.</div>
+      <div class="scard">
+        <div class="shead"><div class="snum">1</div><div class="stit">Choose Table</div><div class="sdesc">The data source your query reads from</div></div>
+        <div class="sbody">
+          <div class="fg"><div class="fl">SELECT FROM TABLE</div>
+            <div class="tip">All other options update automatically when you select a table.</div>
+            <select class="fsl2" id="vt" onchange="vTblChange()"><option value="">-- select a table --</option></select>
+          </div>
+        </div>
+      </div>
+      <div class="scard">
+        <div class="shead"><div class="snum">2</div><div class="stit">Choose Columns</div><div class="sdesc">Click to toggle; data type shown below each name</div></div>
+        <div class="sbody">
+          <div class="fl">COLUMNS &mdash; click to include or exclude</div>
+          <div class="tip">The data type of each column is shown in small text. This helps you choose the right aggregate and filter operators.</div>
+          <div class="ccs" id="vcols"><div style="color:var(--mu);font-size:12px">Select a table first</div></div>
+          <div class="fr" style="margin-top:13px">
+            <div class="fg"><div class="fl">AGGREGATE FUNCTION <span style="font-weight:400">&mdash; optional</span></div>
+              <div class="tip">Computes a summary value from many rows instead of returning individual rows. COUNT counts, SUM adds, AVG averages, MAX/MIN find extremes.</div>
+              <select class="fsl2" id="vagg" onchange="vUpdate()">
+                <option value="">None &mdash; return individual rows</option>
+                <option value="COUNT(*)">COUNT(*) &mdash; count total rows</option>
+                <option value="SUM">SUM &mdash; add up a column</option>
+                <option value="AVG">AVG &mdash; calculate average</option>
+                <option value="MAX">MAX &mdash; find highest value</option>
+                <option value="MIN">MIN &mdash; find lowest value</option>
+                <option value="COUNT(DISTINCT">COUNT(DISTINCT) &mdash; count unique values</option>
+              </select>
+            </div>
+            <div class="fg" id="aggcw" style="display:none">
+              <div class="fl">APPLY ON COLUMN</div>
+              <div class="tip">Which numeric column to apply the aggregate function to.</div>
+              <select class="fsl2" id="vagc" onchange="vUpdate()"></select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="scard">
+        <div class="shead"><div class="snum">3</div><div class="stit">Add Filters (WHERE)</div><div class="sdesc">Narrow down which rows are returned</div></div>
+        <div class="sbody">
+          <div class="tip" style="margin-bottom:8px">Each filter condition narrows the rows included. All conditions are combined with AND logic &mdash; a row must satisfy every condition to appear in results.</div>
+          <div id="vfilters"></div>
+          <button class="addb" onclick="addVF()">+ Add Filter Condition</button>
+        </div>
+      </div>
+      <div class="scard">
+        <div class="shead"><div class="snum">4</div><div class="stit">Group &amp; HAVING</div><div class="sdesc">Group rows; filter groups after aggregation</div></div>
+        <div class="sbody">
+          <div class="fr">
+            <div class="fg"><div class="fl">GROUP BY</div>
+              <div class="tip">Collapses rows with the same value into one group. Each group produces one output row. Use with COUNT, SUM, AVG etc.</div>
+              <select class="fsl2" id="vgb" onchange="vUpdate()"><option value="">None</option></select>
+            </div>
+            <div class="fg"><div class="fl">HAVING</div>
+              <div class="tip">Filters groups after aggregation. Unlike WHERE which filters rows, HAVING filters the grouped result. Example: COUNT(*) &gt; 5 keeps only groups with more than 5 rows.</div>
+              <input class="fin" id="vhav" placeholder="e.g. COUNT(*) &gt; 5" oninput="vUpdate()"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="scard">
+        <div class="shead"><div class="snum">5</div><div class="stit">Sort, Limit &amp; Offset</div><div class="sdesc">Control order and result count</div></div>
+        <div class="sbody">
+          <div class="fr">
+            <div class="fg"><div class="fl">ORDER BY</div>
+              <div class="tip">Sorts results by this column. Without ORDER BY, row order is never guaranteed.</div>
+              <select class="fsl2" id="vob" onchange="vUpdate()"><option value="">None</option></select>
+            </div>
+            <div class="fg" style="max-width:110px"><div class="fl">DIRECTION</div>
+              <div class="tip">DESC = highest first. ASC = lowest first.</div>
+              <select class="fsl2" id="vdir" onchange="vUpdate()"><option value="DESC">DESC &#8595;</option><option value="ASC">ASC &#8593;</option></select>
+            </div>
+            <div class="fg" style="max-width:80px"><div class="fl">LIMIT</div>
+              <div class="tip">Maximum rows to return.</div>
+              <input class="fin" id="vlim" type="number" min="1" placeholder="10" oninput="vUpdate()"/>
+            </div>
+            <div class="fg" style="max-width:80px"><div class="fl">OFFSET</div>
+              <div class="tip">Skip this many rows. Used with LIMIT for pagination. Page 2 = OFFSET 10 if LIMIT is 10.</div>
+              <input class="fin" id="voff" type="number" min="0" placeholder="0" oninput="vUpdate()"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="scard">
+        <div class="shead"><div class="snum">&#10003;</div><div class="stit">Live SQL Preview</div><div class="sdesc">Updates automatically as you configure above</div></div>
+        <div class="sbody" style="padding:0"><div class="prev" id="vprev"><span style="color:var(--mu)">-- Select a table above to begin --</span></div></div>
+      </div>
+      <div class="bact">
+        <button class="bb p" onclick="vCopy()">&#8998; Copy SQL</button>
+        <button class="bb" onclick="vToChat()">&#8594; Chat</button>
+        <button class="bb" onclick="vDL()">&#8595; .sql</button>
+        <button class="bb" onclick="vSave()">&#11088; Save</button>
+        <button class="bb" onclick="vReset()">&#8634; Reset</button>
+      </div>
+      <div id="vcc" class="ccf">&#10003; Copied!</div>
+    </div>
+  </div>
+  <div id="jpanel">
+    <div class="bw">
+      <div class="btit">&#128279; JOIN Builder</div>
+      <div class="bsub">A JOIN combines rows from two tables based on a shared column value. The visual diagram updates as you configure. ON columns are auto-detected when both tables share the same column name. Supports all 5 standard join types.</div>
+      <div class="scard">
+        <div class="shead"><div class="snum">1</div><div class="stit">Pick Tables &amp; Join Type</div></div>
+        <div class="sbody">
+          <div class="fr">
+            <div class="fg"><div class="fl">LEFT TABLE &mdash; main source</div>
+              <select class="fsl2" id="jt1" onchange="jUpdate()"><option value="">-- select --</option></select></div>
+            <div class="fg"><div class="fl">JOIN TYPE</div>
+              <select class="fsl2" id="jtype" onchange="jUpdate()">
+                <option value="INNER JOIN">INNER JOIN &mdash; matching rows only</option>
+                <option value="LEFT JOIN">LEFT JOIN &mdash; all left + matching right</option>
+                <option value="RIGHT JOIN">RIGHT JOIN &mdash; all right + matching left</option>
+                <option value="FULL OUTER JOIN">FULL OUTER JOIN &mdash; all rows both sides</option>
+                <option value="CROSS JOIN">CROSS JOIN &mdash; every combination</option>
+              </select></div>
+            <div class="fg"><div class="fl">RIGHT TABLE &mdash; joined table</div>
+              <select class="fsl2" id="jt2" onchange="jUpdate()"><option value="">-- select --</option></select></div>
+          </div>
+          <div class="jdiag" id="jdiag">
+            <div class="jbox"><div class="jbn">Table A</div><div class="jbc">--</div></div>
+            <div class="jcon"><div class="jline"></div><div class="jbadge">JOIN</div><div class="jline"></div></div>
+            <div class="jbox"><div class="jbn">Table B</div><div class="jbc">--</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="scard" id="jon-card">
+        <div class="shead"><div class="snum">2</div><div class="stit">Match Columns (ON clause)</div><div class="sdesc">The shared key linking both tables</div></div>
+        <div class="sbody">
+          <div class="tip" style="margin-bottom:8px">The ON clause defines which column values must match. Typically a foreign key (orders.customer_id) linked to a primary key (customers.id). Auto-detected when column names match.</div>
+          <div class="fr" style="align-items:flex-end">
+            <div class="fg"><div class="fl">LEFT COLUMN</div><select class="fsl2" id="jon1" onchange="jUpdate()"><option value="">--</option></select></div>
+            <div style="padding-bottom:10px;color:var(--mu);font-weight:700;font-size:16px">=</div>
+            <div class="fg"><div class="fl">RIGHT COLUMN</div><select class="fsl2" id="jon2" onchange="jUpdate()"><option value="">--</option></select></div>
+          </div>
+        </div>
+      </div>
+      <div class="scard">
+        <div class="shead"><div class="snum">3</div><div class="stit">Output Columns</div><div class="sdesc">Click pills to include or exclude from SELECT</div></div>
+        <div class="sbody"><div id="jcols"><div style="color:var(--mu);font-size:12px">Pick tables first</div></div></div>
+      </div>
+      <div class="scard">
+        <div class="shead"><div class="snum">4</div><div class="stit">Filter, Sort &amp; Limit</div></div>
+        <div class="sbody">
+          <div class="fr">
+            <div class="fg"><div class="fl">WHERE CONDITION</div><input class="fin" id="jwhere" placeholder="e.g. orders.status = 'active'" oninput="jUpdate()"/></div>
+            <div class="fg"><div class="fl">ORDER BY</div><input class="fin" id="jorder" placeholder="e.g. orders.total DESC" oninput="jUpdate()"/></div>
+            <div class="fg" style="max-width:80px"><div class="fl">LIMIT</div><input class="fin" id="jlim" type="number" placeholder="50" oninput="jUpdate()"/></div>
+          </div>
+        </div>
+      </div>
+      <div class="scard">
+        <div class="shead"><div class="snum">&#10003;</div><div class="stit">Generated JOIN Query</div></div>
+        <div class="sbody" style="padding:0"><div class="prev" id="jprev"><span style="color:var(--mu)">-- Select tables and ON columns --</span></div></div>
+      </div>
+      <div class="bact">
+        <button class="bb p" onclick="jCopy()">&#8998; Copy SQL</button>
+        <button class="bb" onclick="jToChat()">&#8594; Chat</button>
+        <button class="bb" onclick="jDL()">&#8595; .sql</button>
+        <button class="bb" onclick="jSave()">&#11088; Save</button>
+      </div>
+      <div id="jcc" class="ccf">&#10003; Copied!</div>
+    </div>
+  </div>
+  <div id="sqpanel">
+    <div class="bw">
+      <div class="btit">&#8853; Subquery Builder</div>
+      <div class="bsub">A subquery is a SELECT nested inside another SELECT. The inner query runs first and produces a temporary result. The outer query then reads that result and applies its own filters, sort and limit. Used for advanced multi-step data transformations.</div>
+      <div class="scard">
+        <div class="shead"><div class="snum">1</div><div class="stit">Inner Query &mdash; runs first, produces the data</div></div>
+        <div class="sbody">
+          <div class="tip" style="margin-bottom:7px">Write any valid SELECT query here. It can include GROUP BY, aggregates and WHERE. The outer query will read its results like a table.</div>
+          <textarea class="fin" id="sq-inner" rows="4" style="resize:vertical;line-height:1.8;font-family:'JetBrains Mono',monospace;font-size:12px" oninput="sqUpdate()" placeholder="SELECT customer_id, SUM(total) AS total_spent&#10;FROM orders&#10;GROUP BY customer_id"></textarea>
+          <div class="fr" style="margin-top:9px">
+            <div class="fg"><div class="fl">ALIAS &mdash; name used by the outer query</div>
+              <div class="tip">The outer query references the inner result by this alias, just like a table name.</div>
+              <input class="fin" id="sq-alias" value="inner_q" oninput="sqUpdate()"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="scard">
+        <div class="shead"><div class="snum">2</div><div class="stit">Outer Query &mdash; reads from inner result</div></div>
+        <div class="sbody">
+          <div class="fr">
+            <div class="fg"><div class="fl">SELECT COLUMNS</div><div class="tip">Which columns from the inner result to return. Use * for all columns.</div><input class="fin" id="sq-sel" value="*" oninput="sqUpdate()"/></div>
+          </div>
+          <div class="fr">
+            <div class="fg"><div class="fl">WHERE CONDITION</div><div class="tip">Filter the inner result. e.g. total_spent &gt; 1000</div><input class="fin" id="sq-where" placeholder="e.g. total_spent > 1000" oninput="sqUpdate()"/></div>
+            <div class="fg"><div class="fl">ORDER BY</div><input class="fin" id="sq-order" placeholder="e.g. total_spent DESC" oninput="sqUpdate()"/></div>
+            <div class="fg" style="max-width:80px"><div class="fl">LIMIT</div><input class="fin" id="sq-lim" type="number" placeholder="10" oninput="sqUpdate()"/></div>
+          </div>
+        </div>
+      </div>
+      <div class="scard">
+        <div class="shead"><div class="snum">&#10003;</div><div class="stit">Generated Subquery</div></div>
+        <div class="sbody" style="padding:0"><div class="prev" id="sqprev"><span style="color:var(--mu)">-- Fill in the inner query above --</span></div></div>
+      </div>
+      <div class="bact">
+        <button class="bb p" onclick="sqCopy()">&#8998; Copy</button>
+        <button class="bb" onclick="sqToChat()">&#8594; Chat</button>
+        <button class="bb" onclick="sqDL()">&#8595; .sql</button>
+        <button class="bb" onclick="sqSave()">&#11088; Save</button>
+      </div>
+      <div id="sqcc" class="ccf">&#10003; Copied!</div>
+    </div>
+  </div>
+  <div id="diffpanel">
+    <div class="bw">
+      <div class="btit">&#8644; Compare SQL Queries</div>
+      <div class="bsub">Paste two versions of a SQL query to see exactly what changed line by line. Lines added appear in green with a + prefix. Lines removed appear in red with strikethrough. The summary shows total lines changed and the change percentage. Useful for reviewing edits before applying them.</div>
+      <div class="scard">
+        <div class="shead"><div class="snum">A</div><div class="stit">Original Query</div></div>
+        <div class="sbody"><textarea class="fin" id="diff-a" rows="5" style="resize:vertical;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.8" placeholder="Paste original SQL here..." oninput="runDiff()"></textarea></div>
+      </div>
+      <div class="scard">
+        <div class="shead"><div class="snum">B</div><div class="stit">Revised Query</div></div>
+        <div class="sbody"><textarea class="fin" id="diff-b" rows="5" style="resize:vertical;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.8" placeholder="Paste revised SQL here..." oninput="runDiff()"></textarea></div>
+      </div>
+      <div class="scard">
+        <div class="shead"><div class="snum">&#10003;</div><div class="stit">Differences</div>
+          <div style="margin-left:auto;font-size:11px;color:var(--mu)"><span style="color:var(--ac)">&#9646; Added</span> &nbsp; <span style="color:var(--er)">&#9646; Removed</span></div>
+        </div>
+        <div class="sbody" style="padding:0"><div class="diff-area" id="diff-out"><span style="color:var(--mu)">-- Paste two queries above to compare --</span></div></div>
+      </div>
+      <div class="scard">
+        <div class="shead"><div class="snum">i</div><div class="stit">Change Summary</div></div>
+        <div class="sbody"><div id="diff-sum" style="font-size:12px;color:var(--mu);line-height:1.8">Fill in both queries above.</div></div>
+      </div>
+    </div>
+  </div>
+  <div id="toolspanel">
+    <div class="bw">
+      <div class="btit">&#128295; SQL Tools</div>
+      <div class="bsub">Six specialist tools for everyday SQL work. All tools run entirely offline in your browser. Zero cost. No API. Detailed explanations are shown for each tool below.</div>
+
+      <div class="tool-card">
+        <div class="tool-title">&#9998; SQL Formatter</div>
+        <div class="tool-desc">
+          <strong>What it does:</strong> Takes any messy, compressed or poorly-indented SQL and reformats it into clean, consistently-structured code with each clause on its own line.<br>
+          <strong>How to use:</strong> Paste your SQL in the box below and click Format SQL. The result appears with syntax highlighting.<br>
+          <strong>Why it helps:</strong> Formatted SQL is easier to read, debug, and share. It is also easier to spot missing clauses and logic errors when the structure is clear.
+        </div>
+        <textarea class="fin" id="fmt-in" rows="4" style="resize:vertical;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.8;margin-bottom:8px" placeholder="Paste messy SQL here... e.g. select name,email from customers where status='active' and created_at>'2024-01-01' order by name limit 10"></textarea>
+        <div class="exp-btns">
+          <button class="bb p" onclick="runFmt()">&#9654; Format SQL</button>
+          <button class="bb" onclick="copyFmt()">&#8998; Copy</button>
+          <button class="bb" onclick="fmtToChat()">&#8594; Send to Chat</button>
+        </div>
+        <div class="prev" id="fmt-out" style="margin-top:9px;min-height:50px"><span style="color:var(--mu)">-- Formatted SQL will appear here --</span></div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-title">&#128683; SQL Error Explainer</div>
+        <div class="tool-desc">
+          <strong>What it does:</strong> Paste a database error message and get a plain-English explanation of what went wrong, why it happened, and how to fix it.<br>
+          <strong>How to use:</strong> Copy the full error text from your database client (MySQL Workbench, DBeaver, pgAdmin, etc.) and paste it below. Click Explain Error.<br>
+          <strong>Why it helps:</strong> Database error messages are often technical and cryptic. This tool translates 14 common error patterns into plain actionable language that non-technical users can act on.
+        </div>
+        <textarea class="fin" id="err-in" rows="3" style="resize:vertical;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.8;margin-bottom:8px" placeholder="Paste your SQL error message here... e.g.&#10;ERROR 1064 (42000): You have an error in your SQL syntax&#10;or: column total does not exist&#10;or: ORA-00904: invalid identifier"></textarea>
+        <div class="exp-btns"><button class="bb p" onclick="explainErr()">&#9654; Explain Error</button></div>
+        <div id="err-out" style="margin-top:9px;font-size:13px;line-height:1.8;color:var(--tx);display:none;background:var(--sf2);border:1px solid var(--bd);border-radius:8px;padding:12px"></div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-title">&#9201; Query Complexity Estimator</div>
+        <div class="tool-desc">
+          <strong>What it does:</strong> Analyses any SQL query and produces a complexity score with a risk level and breakdown of what makes the query heavy or light.<br>
+          <strong>How to use:</strong> Paste a SQL query and click Estimate. The tool counts JOINs, subqueries, aggregates, LIKE patterns, DISTINCT, window functions and UNION operations to produce a score from 0 to 100+.<br>
+          <strong>Why it helps:</strong> Helps non-technical users understand whether a query is safe to run on a live production database or should be tested and optimised first. Green = safe, Yellow = test first, Red = optimise before running.
+        </div>
+        <textarea class="fin" id="cplx-in" rows="4" style="resize:vertical;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.8;margin-bottom:8px" placeholder="Paste a SQL query to estimate its complexity and performance risk..."></textarea>
+        <div class="exp-btns"><button class="bb p" onclick="estimateCplx()">&#9654; Estimate Complexity</button></div>
+        <div class="cplx-box" id="cplx-out" style="display:none">
+          <div class="cplx-label" id="cplx-label">--</div>
+          <div class="cplx-bar-bg"><div class="cplx-bar" id="cplx-bar"></div></div>
+          <div class="cplx-detail" id="cplx-detail"></div>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-title">&#128200; Schema Diagram Viewer</div>
+        <div class="tool-desc">
+          <strong>What it does:</strong> Reads your schema and generates an ASCII diagram showing all tables, their columns with inferred data types, and relationship lines between tables that share column names (indicating foreign key relationships).<br>
+          <strong>How to use:</strong> Make sure your schema is entered in the Schema sidebar panel, then click Generate Diagram.<br>
+          <strong>Why it helps:</strong> Gives a visual bird's-eye view of how your database is structured. Useful for documentation, onboarding new team members, and deciding which tables can be JOINed.
+        </div>
+        <div class="exp-btns"><button class="bb p" onclick="genDiagram()">&#9654; Generate Diagram</button></div>
+        <div class="schema-diagram" id="diagram-out" style="display:none;margin-top:9px"></div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-title">&#128196; Stored Procedure Template Generator</div>
+        <div class="tool-desc">
+          <strong>What it does:</strong> Generates a stored procedure skeleton for your chosen table and operation type. Produces the correct syntax for your selected SQL dialect (MySQL, PostgreSQL, SQL Server, Oracle).<br>
+          <strong>How to use:</strong> Select a table from your schema, choose the procedure type (SELECT all, GET by ID, INSERT, UPDATE, DELETE), then click Generate Template.<br>
+          <strong>Why it helps:</strong> Stored procedure syntax varies significantly between MySQL, PostgreSQL, SQL Server and Oracle. This generates the correct boilerplate so you only need to fill in the business logic.
+        </div>
+        <div class="fr">
+          <div class="fg"><div class="fl">TABLE</div><select class="fsl2" id="sp-tbl"><option value="">-- select --</option></select></div>
+          <div class="fg"><div class="fl">PROCEDURE TYPE</div>
+            <select class="fsl2" id="sp-type">
+              <option value="select">SELECT all rows</option>
+              <option value="getbyid">GET by ID</option>
+              <option value="insert">INSERT new record</option>
+              <option value="update">UPDATE by ID</option>
+              <option value="delete">DELETE by ID</option>
+            </select>
+          </div>
+        </div>
+        <div class="exp-btns" style="margin-top:8px">
+          <button class="bb p" onclick="genSP()">&#9654; Generate Template</button>
+          <button class="bb" onclick="copySP()">&#8998; Copy</button>
+        </div>
+        <div class="prev" id="sp-out" style="margin-top:9px;min-height:50px"><span style="color:var(--mu)">-- Template will appear here --</span></div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-title">&#128229; IN-Clause Builder</div>
+        <div class="tool-desc">
+          <strong>What it does:</strong> Takes a list of values (one per line or comma-separated) and formats them into a properly-quoted SQL IN clause ready to paste into any WHERE condition.<br>
+          <strong>How to use:</strong> Enter the column name, select whether the values are text (gets single quotes) or numbers (no quotes), paste your list of values, and the result updates automatically.<br>
+          <strong>Why it helps:</strong> Manually quoting dozens of values is tedious and error-prone. This formats them instantly and correctly regardless of the list size.
+        </div>
+        <div class="fr">
+          <div class="fg"><div class="fl">COLUMN NAME</div><input class="fin" id="in-col" placeholder="e.g. status or customer_id" oninput="buildIN()"/></div>
+          <div class="fg" style="max-width:140px"><div class="fl">VALUE TYPE</div>
+            <select class="fsl2" id="in-type" onchange="buildIN()">
+              <option value="text">Text (adds quotes)</option>
+              <option value="number">Number (no quotes)</option>
+            </select>
+          </div>
+        </div>
+        <textarea class="fin" id="in-vals" rows="4" style="resize:vertical;font-family:'JetBrains Mono',monospace;font-size:12px;margin-bottom:8px" placeholder="Paste values, one per line or comma-separated:&#10;active&#10;pending&#10;completed" oninput="buildIN()"></textarea>
+        <div class="prev" id="in-out" style="min-height:36px"><span style="color:var(--mu)">-- IN clause will appear here --</span></div>
+        <div class="exp-btns" style="margin-top:8px">
+          <button class="bb p" onclick="copyIN()">&#8998; Copy IN Clause</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="learnpanel">
+    <div class="bw">
+      <div class="btit">&#127979; Learn SQL</div>
+      <div class="bsub">17 interactive lessons from beginner SELECT to advanced window functions and CTEs. Each lesson has a plain-English explanation of the concept, a real working SQL example with syntax highlighting, a description of what the output would look like, and a Try It button that sends the example to the chat so you can run it and experiment immediately.</div>
+      <div id="learn-content"></div>
+    </div>
+  </div>
+  <div id="exportpanel">
+    <div class="bw">
+      <div class="btit">&#128228; Export &amp; Share</div>
+      <div class="bsub">Export your saved queries and schema in multiple formats. All exports run entirely offline and produce files you can open in Excel, Notion, any SQL client, or share with your team. A built-in print function lets you save a PDF of your query library.</div>
+
+      <div class="exp-card">
+        <div class="exp-title">&#128196; Export Saved Queries as .sql File</div>
+        <div class="exp-desc">Downloads all your saved queries as a single <strong>.sql</strong> file with each query separated by a comment label showing its title and tags. Ready to paste directly into MySQL Workbench, DBeaver, pgAdmin, SQLite Browser, or any database client.</div>
+        <div class="exp-btns"><button class="bb p" onclick="exportAllSQL()">&#8595; Download .sql</button></div>
+      </div>
+
+      <div class="exp-card">
+        <div class="exp-title">&#128203; Export as Markdown Report (.md)</div>
+        <div class="exp-desc">Creates a <strong>.md</strong> documentation file with all saved queries formatted as SQL code blocks with titles, tags and save times. Paste into Notion, GitHub README, Obsidian, or any Markdown viewer. Ideal for creating a shareable query library document for your team.</div>
+        <div class="exp-btns"><button class="bb p" onclick="exportMarkdown()">&#8595; Download .md</button></div>
+      </div>
+
+      <div class="exp-card">
+        <div class="exp-title">&#128202; Export as JSON</div>
+        <div class="exp-desc">Exports all saved queries as structured <strong>.json</strong> including title, SQL, tags, dialect and save time. Useful for importing into other tools, building APIs on top of your query library, or programmatic query management.</div>
+        <div class="exp-btns"><button class="bb p" onclick="exportJSON()">&#8595; Download .json</button></div>
+      </div>
+
+      <div class="exp-card">
+        <div class="exp-title">&#128203; Export as CSV Summary</div>
+        <div class="exp-desc">Exports a <strong>.csv</strong> file listing all saved queries with title, tags, first SQL line and save time. Open directly in Microsoft Excel or Google Sheets to manage your query library as a spreadsheet.</div>
+        <div class="exp-btns"><button class="bb p" onclick="exportCSV()">&#8595; Download .csv</button></div>
+      </div>
+
+      <div class="exp-card">
+        <div class="exp-title">&#128424; Print Query Library as PDF</div>
+        <div class="exp-desc">Opens your browser print dialog with all saved queries formatted in a clean print layout. Use your browser's built-in Save as PDF option. Works in Chrome, Firefox, Edge and Safari. No third-party tool needed.</div>
+        <div class="exp-btns"><button class="bb p" onclick="printLibrary()">&#128424; Print / Save as PDF</button></div>
+      </div>
+
+      <div class="exp-card">
+        <div class="exp-title">&#127968; Generate CREATE TABLE Statements (DDL)</div>
+        <div class="exp-desc">Reads your schema definition and generates <strong>CREATE TABLE</strong> SQL with intelligently inferred column types: AUTOINCREMENT for id, DECIMAL(10,2) for price/salary/amount, DATETIME for date columns, VARCHAR(100) for name/status/category, VARCHAR(255) for email, INTEGER for count/stock. Use this to document your database structure or bootstrap a new environment.</div>
+        <div id="ddl-preview" class="exp-pre" style="display:none;margin-top:9px"></div>
+        <div class="exp-btns">
+          <button class="bb p" onclick="genDDL()">&#9654; Generate DDL</button>
+          <button class="bb" onclick="copyDDL()">&#8998; Copy</button>
+          <button class="bb" onclick="dlDDL()">&#8595; schema.sql</button>
+        </div>
+      </div>
+
+      <div class="exp-card">
+        <div class="exp-title">&#128200; Session Summary</div>
+        <div class="exp-desc">A complete report of your activity in this browser session.</div>
+        <div id="session-summary" class="exp-pre"></div>
+        <div class="exp-btns"><button class="bb" onclick="updateSummary()">&#8635; Refresh</button></div>
+      </div>
+    </div>
+  </div>
+  <!-- v7: MULTI-JOIN PANEL -->
+  <div id="multipanel">
+    <div class="bw">
+      <div class="btit">&#8862; Multi-Table JOIN Builder</div>
+      <div class="bsub">Chain three or more tables in a single query. Add a row for each additional table; QueryPilot auto-detects ON columns from your schema (matching <code>id</code> ↔ <code>{table}_id</code> conventions). Use this when you need to combine data from many tables: e.g. customers + orders + products + invoices.</div>
+
+      <div class="scard">
+        <div class="shead"><div class="snum">1</div><div class="stit">Base Table</div><div class="sdesc">The first table in the FROM clause</div></div>
+        <div class="sbody">
+          <select id="mt-base" class="fsl2" onchange="renderMT()" aria-label="Base table"></select>
+          <div class="tip">All other tables are joined on top of this one.</div>
+        </div>
+      </div>
+
+      <div class="scard">
+        <div class="shead"><div class="snum">2</div><div class="stit">Joined Tables</div><div class="sdesc">Add as many as needed</div></div>
+        <div class="sbody">
+          <div id="mt-list"></div>
+          <button class="addb" style="margin-top:8px" onclick="addMTRow()">&#10133; Add Joined Table</button>
+        </div>
+      </div>
+
+      <div class="scard">
+        <div class="shead"><div class="snum">3</div><div class="stit">Filter, Sort, Limit</div><div class="sdesc">Optional</div></div>
+        <div class="sbody">
+          <div class="fr">
+            <div class="fg"><label class="fl">WHERE</label><input id="mt-where" class="fin" placeholder="e.g. customers.status = 'active'" oninput="renderMT()"/></div>
+            <div class="fg"><label class="fl">ORDER BY</label><input id="mt-order" class="fin" placeholder="e.g. orders.created_at DESC" oninput="renderMT()"/></div>
+            <div class="fg"><label class="fl">LIMIT</label><input id="mt-limit" class="fin" type="number" placeholder="e.g. 100" oninput="renderMT()"/></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scard">
+        <div class="shead"><div class="snum">&#9889;</div><div class="stit">Generated SQL</div><div class="sdesc">Updates live</div></div>
+        <div class="sbody">
+          <div id="mt-prev" class="prev"><span style="color:var(--mu)">-- Pick a base table and add at least one joined table --</span></div>
+          <div class="bact">
+            <button class="bb p" onclick="sendMT()">&#10148; Send to Chat</button>
+            <button class="bb" onclick="copyMT()">&#128203; Copy</button>
+          </div>
+          <div id="mt-flash" class="ccf">Copied!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- LEARN HUB PANEL (v9) — content rendered by learn.js -->
+  <div id="hubpanel">
+    <div style="text-align:center;padding:40px;color:var(--mu)">Loading curriculum...</div>
+  </div>
+
+  <!-- ENTERPRISE PANEL (v8) — content rendered by enterprise.js -->
+  <div id="entpanel">
+    <div class="ent-empty" style="padding:60px 14px">
+      <div class="ent-empty-icon">🏢</div>
+      <div style="font-size:15px;color:var(--tx);margin-bottom:8px"><strong>Loading Enterprise Console...</strong></div>
+      <div style="font-size:12px">25 enterprise features being prepared.</div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<div id="ibar">
+  <div class="iw">
+    <textarea id="nli" placeholder="Ask in plain English: 'Show top 10 customers by revenue last month'" oninput="ar(this)" onkeydown="hk(event)" aria-label="Query input"></textarea>
+    <button id="sbtn" onclick="send()" aria-label="Send">&#10148;</button>
+  </div>
+  <div class="ihint">Press <strong>Enter</strong> to send &middot; <strong>Shift+Enter</strong> for new line &middot; <strong>Esc</strong> to clear &middot; <strong>Ctrl+F</strong> to search results</div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="install-banner"><span>&#128241; Install QueryPilot as an app for offline use</span><button class="bnr-btn" onclick="doInstall()">Install</button><button class="bnr-x" onclick="document.getElementById('install-banner').classList.remove('on')">&#10005;</button></div>
+
+<!-- HELP MODAL (kept from v6, expanded for v7) -->
+<div id="mod">
+  <div class="mbox">
+    <div class="mtit">&#9889; QueryPilot v9 — Quick Reference</div>
+    <div style="font-size:12px;color:var(--mu);line-height:1.7;margin-bottom:12px">
+      QueryPilot turns plain English into SQL. 100% offline, no API, no cost. <strong>v8 adds 25 enterprise features</strong> (workspaces, RBAC, governance, PII scanner, vault, compliance — <a href="ENTERPRISE.md" target="_blank" style="color:var(--ac)">reference</a>). <strong>v9 adds a 118-lesson Data Science Learning Hub</strong> taking you from zero to expert — <a href="LEARNING_HUB.md" target="_blank" style="color:var(--ac)">curriculum reference →</a>
+    </div>
+    <div style="font-size:13px;font-weight:700;color:var(--tx);margin-bottom:8px">Modes (11)</div>
+    <div class="fgrid">
+      <div class="fi"><div class="fn">&#128172; Ask in English</div><div class="fd">Type plain English and get SQL. 45+ patterns: dates, status, count, sum, avg, max, min, rank, percentage, CTE, LIKE, NULL, BETWEEN, window functions, duplicates, overdue, year-over-year, rolling avg, pivot, cohort.</div></div>
+      <div class="fi"><div class="fn">&#128296; Visual Builder</div><div class="fd">5-step form with tooltips. Column data types shown. HAVING, OFFSET, COUNT DISTINCT, live preview.</div></div>
+      <div class="fi"><div class="fn">&#128279; JOIN Builder</div><div class="fd">Two-table visual JOIN. ON columns auto-detected. INNER, LEFT, RIGHT, FULL OUTER, CROSS.</div></div>
+      <div class="fi"><div class="fn">&#8853; Subquery Builder</div><div class="fd">Inner-outer SELECT generator with proper nesting.</div></div>
+      <div class="fi"><div class="fn">&#8862; Multi-JOIN <span style="color:var(--ac)">NEW</span></div><div class="fd">Chain 3+ tables in one query. Visual chain editor with auto ON detection.</div></div>
+      <div class="fi"><div class="fn">&#8644; Compare SQL</div><div class="fd">Line-by-line diff with change percentage.</div></div>
+      <div class="fi"><div class="fn">&#128295; SQL Tools (8)</div><div class="fd">Formatter, Error Explainer, Complexity, Schema Diagram (ASCII + SVG ER), Stored Proc, IN-Builder, plus Performance Tips and Index Suggester (NEW).</div></div>
+      <div class="fi"><div class="fn">&#127979; Learn SQL</div><div class="fd">17 interactive lessons from SELECT to CTEs and window functions.</div></div>
+      <div class="fi"><div class="fn">&#128228; Export (8 options)</div><div class="fd">.sql, .md, .json, .csv, per-query Markdown (NEW), Print PDF, DDL generator, session summary.</div></div>
+      <div class="fi"><div class="fn">&#128269; Search Results</div><div class="fd">Ctrl+F searches across all SQL result cards.</div></div>
+      <div class="fi"><div class="fn">&#127974; 4 Themes <span style="color:var(--ac)">NEW</span></div><div class="fd">Dark, Light, High Contrast, Solarized. Cycle with the moon button.</div></div>
+      <div class="fi"><div class="fn">&#128241; PWA Install <span style="color:var(--ac)">NEW</span></div><div class="fd">Install as a desktop/mobile app. Works fully offline after first load.</div></div>
+      <div class="fi"><div class="fn">&#11088; Save with Tags</div><div class="fd">Tag saved queries; filter saved by tag.</div></div>
+      <div class="fi"><div class="fn">&#128200; Mock Preview</div><div class="fd">Sample output table for every result.</div></div>
+      <div class="fi"><div class="fn">&#128218; Deep Explain</div><div class="fd">Clause-by-clause plain English breakdown.</div></div>
+      <div class="fi"><div class="fn">&#10003; SQL Validator</div><div class="fd">10 checks (v7) including ambiguous JOIN, semicolon, dangerous DML.</div></div>
+      <div class="fi"><div class="fn">&#128190; Snippet Library <span style="color:var(--ac)">NEW</span></div><div class="fd">Save and reuse common SQL fragments.</div></div>
+      <div class="fi"><div class="fn">&#128193; Your Templates <span style="color:var(--ac)">NEW</span></div><div class="fd">Save your own queries as templates.</div></div>
+      <div class="fi"><div class="fn">&#128279; Share by URL <span style="color:var(--ac)">NEW</span></div><div class="fd">Encode your schema + last query in a URL.</div></div>
+      <div class="fi"><div class="fn">&#11015; Import schema <span style="color:var(--ac)">NEW</span></div><div class="fd">Import schema from .sql (CREATE TABLE) or .json.</div></div>
+      <div class="fi"><div class="fn">&#127979; Learning Hub <span style="color:var(--pu)">v9</span></div><div class="fd">Complete data science curriculum: 9 modules, 118 lessons, ~24 weeks. From "what is data?" to deployed ML. Quizzes, projects, printable certificate at 80% completion.</div></div>
+      <div class="fi"><div class="fn">🏢 Enterprise Console <span style="color:var(--ac)">v8</span></div><div class="fd">25 enterprise features: workspaces, RBAC, governance, audit log, PII scanner, approval workflow, lineage, linter, migrations, test data, cost estimator, versions, schedules, bridge, backup, compliance, comments, vault, dashboard, health, glossary, tour, doc pack, multi-tab sync.</div></div>
+    </div>
+    <div style="margin-top:14px;margin-bottom:8px;font-size:12px;font-weight:700;color:var(--tx)">Keyboard Shortcuts</div>
+    <div class="scr"><span>Send query</span><span class="kbd">Enter</span></div>
+    <div class="scr"><span>New line in input</span><span class="kbd">Shift + Enter</span></div>
+    <div class="scr"><span>Clear input</span><span class="kbd">Esc</span></div>
+    <div class="scr"><span>Search all results</span><span class="kbd">Ctrl + F</span></div>
+    <div class="scr"><span>Open shortcuts overlay</span><span class="kbd">?</span></div>
+    <div class="scr"><span>Open settings</span><span class="kbd">Ctrl + ,</span></div>
+    <div class="scr"><span>Toggle sidebar</span><span class="kbd">Ctrl + B</span></div>
+    <div class="scr"><span>Cycle theme</span><span class="kbd">Ctrl + Shift + T</span></div>
+    <div class="scr"><span>Save query</span><span class="kbd">&#11088; on result card</span></div>
+    <div class="scr"><span>Copy SQL</span><span class="kbd">Copy btn on card</span></div>
+    <div class="scr"><span>Toggle word wrap</span><span class="kbd">Wrap btn on card</span></div>
+    <button class="bb p" style="margin-top:16px;width:100%" onclick="document.getElementById('mod').classList.remove('on')">Close</button>
+  </div>
+</div>
+
+<!-- SHORTCUTS OVERLAY (v7) -->
+<div id="sc-mod" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:100;align-items:center;justify-content:center">
+  <div class="mbox">
+    <div class="mtit">&#9000; Keyboard Shortcuts</div>
+    <div class="sc-grid">
+      <div class="sc-cell"><strong>Enter</strong>Send query</div>
+      <div class="sc-cell"><strong>Shift+Enter</strong>New line</div>
+      <div class="sc-cell"><strong>Esc</strong>Clear input / close overlay</div>
+      <div class="sc-cell"><strong>Ctrl+F</strong>Search results</div>
+      <div class="sc-cell"><strong>Ctrl+B</strong>Toggle sidebar</div>
+      <div class="sc-cell"><strong>Ctrl+,</strong>Open settings</div>
+      <div class="sc-cell"><strong>Ctrl+Shift+T</strong>Cycle theme</div>
+      <div class="sc-cell"><strong>?</strong>This overlay</div>
+      <div class="sc-cell"><strong>Ctrl+S</strong>Save current chat schema</div>
+      <div class="sc-cell"><strong>Ctrl+E</strong>Export all saved queries</div>
+    </div>
+    <button class="bb p" style="margin-top:14px;width:100%" onclick="closeShortcuts()">Close</button>
+  </div>
+</div>
+
+<!-- SETTINGS OVERLAY (v7) -->
+<div id="set-mod" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:100;align-items:center;justify-content:center">
+  <div class="mbox">
+    <div class="mtit">&#9881; Settings</div>
+    <div class="set-row">
+      <label>Font size<span class="set-desc">Affects all panels and chat</span></label>
+      <div class="set-ctl">
+        <select id="set-fs" onchange="setFontSize(this.value)">
+          <option value="sm">Small</option><option value="md" selected>Medium</option>
+          <option value="lg">Large</option><option value="xl">Extra Large</option>
+        </select>
+      </div>
+    </div>
+    <div class="set-row">
+      <label>Default dialect<span class="set-desc">Used when QueryPilot loads</span></label>
+      <div class="set-ctl">
+        <select id="set-dialect" onchange="setDefaultDialect(this.value)">
+          <option>Standard SQL</option><option>PostgreSQL</option><option>MySQL</option>
+          <option>SQLite</option><option>SQL Server</option><option>BigQuery</option>
+          <option>Snowflake</option><option>Oracle</option>
+        </select>
+      </div>
+    </div>
+    <div class="set-row">
+      <label>Auto-format SQL on send<span class="set-desc">Always tidy whitespace in generated SQL</span></label>
+      <div class="set-ctl"><button class="toggle on" id="set-autofmt" onclick="toggleSet('autofmt',this)" aria-pressed="true"></button></div>
+    </div>
+    <div class="set-row">
+      <label>Auto-save to History<span class="set-desc">Add every query to History panel</span></label>
+      <div class="set-ctl"><button class="toggle on" id="set-autohist" onclick="toggleSet('autohist',this)" aria-pressed="true"></button></div>
+    </div>
+    <div class="set-row">
+      <label>Show mock preview<span class="set-desc">Render sample data table on every card</span></label>
+      <div class="set-ctl"><button class="toggle on" id="set-mock" onclick="toggleSet('mock',this)" aria-pressed="true"></button></div>
+    </div>
+    <div class="set-row">
+      <label>Show performance hints<span class="set-desc">Inline complexity & index hints under SQL</span></label>
+      <div class="set-ctl"><button class="toggle on" id="set-hints" onclick="toggleSet('hints',this)" aria-pressed="true"></button></div>
+    </div>
+    <div class="set-row">
+      <label>Word-wrap by default<span class="set-desc">Long lines wrap in result cards</span></label>
+      <div class="set-ctl"><button class="toggle on" id="set-wrap" onclick="toggleSet('wrap',this)" aria-pressed="true"></button></div>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="bb" onclick="resetSettings()">Reset to defaults</button>
+      <button class="bb p" style="margin-left:auto" onclick="closeSettings()">Done</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ABOUT THE BUILDER MODAL (v7) -->
+<div id="about-mod" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:100;align-items:center;justify-content:center">
+  <div class="mbox" style="max-width:640px">
+    <div class="mtit">&#128100; About the Builder</div>
+    <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:14px;flex-wrap:wrap">
+      <div style="width:64px;height:64px;border-radius:14px;background:linear-gradient(135deg,var(--ac),#58a6ff);display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:700;color:#fff;flex-shrink:0">A</div>
+      <div style="flex:1;min-width:200px">
+        <div style="font-size:16px;font-weight:700;color:var(--tx)">Adewale Samson Adeagbo</div>
+        <div style="font-size:12px;color:var(--mu);margin-top:2px;line-height:1.6">
+          Data Scientist · STEM Educator · AI-Augmented Solutions Developer<br>
+          Founder, <strong>HMG Concepts</strong> (Est. 2015) · &#128205; Lagos, Nigeria
+        </div>
+      </div>
+    </div>
+    <div style="font-size:12px;line-height:1.75;color:var(--tx);background:var(--sf2);border:1px solid var(--bd);border-radius:9px;padding:11px 13px;margin-bottom:12px">
+      <em>"I did not wait to become a developer. I used clear thinking and AI leverage to build the tools my students needed. That working method is the real skill &mdash; not any specific technology."</em>
+    </div>
+    <div style="font-size:12px;line-height:1.8;color:var(--mu);margin-bottom:12px">
+      QueryPilot was built by a Nigerian secondary-school teacher of <strong style="color:var(--tx)">15+ years</strong> who became a data scientist &mdash; and a data scientist who never stopped teaching. Shipped from an <strong style="color:var(--tx)">Android tablet using Acode editor</strong>, on <strong style="color:var(--tx)">zero budget</strong>. Currently enrolled in <strong style="color:var(--tx)">three advanced learning programmes</strong> simultaneously: DSN&times;3MTT&times;Google.org DeepTech_Ready, WorldQuant University ADS Lab, and Kodecamp Cohort 6. <strong style="color:var(--tx)">12 deployed ML &amp; EdTech projects</strong> across 7 industries &mdash; including CBT Pro, live with real students.
+    </div>
+
+    <div style="font-size:11px;font-weight:700;color:var(--ac);letter-spacing:.5px;margin-bottom:7px;text-transform:uppercase">Connect &amp; Collaborate</div>
+    <div class="fgrid">
+      <a class="fi" href="https://wa.me/2348100866322" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><div class="fn">&#128172; WhatsApp (fastest)</div><div class="fd">+234 810 086 6322</div></a>
+      <a class="fi" href="mailto:hmgconcepts@gmail.com" style="text-decoration:none;color:inherit"><div class="fn">&#9993; Tech &amp; Partnerships</div><div class="fd"><span class="__cf_email__" data-cfemail="7715021e1b131e19101a0e1e140314160512120537101a161e1b5914181a">[email&#160;protected]</span></div></a>
+      <a class="fi" href="https://cssadewale.pages.dev" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><div class="fn">&#127760; Personal Portfolio</div><div class="fd">cssadewale.pages.dev</div></a>
+      <a class="fi" href="https://hmgconcepts.pages.dev" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><div class="fn">&#127978; HMG Concepts</div><div class="fd">hmgconcepts.pages.dev</div></a>
+      <a class="fi" href="https://github.com/cssadewale" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><div class="fn">&#128187; GitHub</div><div class="fd">github.com/cssadewale</div></a>
+      <a class="fi" href="https://linkedin.com/in/adewalesamsonadeagbo" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><div class="fn">&#128188; LinkedIn</div><div class="fd">adewalesamsonadeagbo</div></a>
+      <a class="fi" href="https://youtube.com/@hmgconcepts" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><div class="fn">&#128250; YouTube (free!)</div><div class="fd">@hmgconcepts &mdash; project walkthroughs &amp; WAEC/JAMB prep</div></a>
+      <a class="fi" href="https://x.com/cssadewale" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><div class="fn">&#128038; X / Twitter</div><div class="fd">@cssadewale</div></a>
+    </div>
+
+    <div style="font-size:11px;font-weight:700;color:var(--ac);letter-spacing:.5px;margin:14px 0 7px;text-transform:uppercase">Other live projects by the same builder</div>
+    <div style="font-size:11px;line-height:1.8;color:var(--mu)">
+      &#9889; <strong style="color:var(--tx)">CBT Pro</strong> &mdash; full Computer-Based Testing platform live with real Nigerian students<br>
+      &#129516; <strong style="color:var(--tx)">TruthLens</strong> &mdash; XGBoost fake-news detector (86.75% acc, AUC 0.9393)<br>
+      &#127979; <strong style="color:var(--tx)">Student At-Risk Predictor</strong> &mdash; identifies students likely to fail before exam season<br>
+      &#128202; <strong style="color:var(--tx)">Student Performance Tracker v3</strong> &mdash; 4-tab teacher dashboard<br>
+      &#127970; <strong style="color:var(--tx)">Insurance Claim, Bank Churn, Yakub Promotion, NeuroWell Burnout, SwiftChain Delay, Income Level</strong> &mdash; 6 more deployed ML apps
+    </div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+      <a class="bb" href="AUTHOR.md" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block">&#128218; Full builder story</a>
+      <a class="bb" href="https://wa.me/2348100866322" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block">&#128172; Say hello</a>
+      <button class="bb p" style="margin-left:auto" onclick="closeAbout()">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="tour-overlay"></div>
+<script src="qp_assets/app.js"></script>
+<script src="qp_assets/enterprise.js"></script>
+<script src="qp_assets/curriculum.js"></script>
+<script src="qp_assets/curriculum_part2.js"></script>
+<script src="qp_assets/curriculum_part3.js"></script>
+<script src="qp_assets/curriculum_part4.js"></script>
+<script src="qp_assets/learn.js"></script>
+<script>
+// PWA registration (silent failure when running from file://)
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+  });
+}
+window.addEventListener('beforeinstallprompt',function(e){
+  e.preventDefault();window._installEvt=e;
+  document.getElementById('install-banner').classList.add('on');
+});
+window.doInstall=function(){
+  if(window._installEvt){window._installEvt.prompt();window._installEvt=null;}
+  document.getElementById('install-banner').classList.remove('on');
+};
+</script>
+</body>
+</html>

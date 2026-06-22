@@ -1,63 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analysis Notebook | HMG SQL Intelligence</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/dracula.min.css">
-</head>
-<body class="dark-theme">
-    <nav class="navbar">
-        <div class="logo">
-            <span class="logo-icon">💎</span>
-            <span class="logo-text">HMG SQL <span>v6.0</span></span>
-        </div>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="workbench.html">Workbench</a>
-            <a href="notebook.html" class="active">Notebook</a>
-            <a href="academy.html">Academy</a>
-            <a href="diagnostics.html">Diagnostics</a>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="about.html">About</a>
-        </div>
-        <div class="nav-controls">
-            <div class="theme-toggle" id="theme-toggle">🌓</div>
-        </div>
-    </nav>
-
-    <main class="notebook-layout">
-        <header class="notebook-header">
-            <div class="nb-title-area">
-                <input type="text" id="nb-title" value="My Data Analysis Story" class="nb-title-input">
-                <div class="nb-actions">
-                    <button id="btn-save-nb" class="btn-secondary">Save Project</button>
-                    <button id="btn-export-nb" class="btn-primary">Export as Report</button>
-                </div>
-            </div>
-        </header>
-
-        <div id="notebook-container" class="notebook-container">
-            <!-- Cells go here -->
-        </div>
-
-        <div class="notebook-footer">
-            <button id="btn-add-text" class="btn-tool">+ Add Text Cell</button>
-            <button id="btn-add-sql" class="btn-tool">+ Add SQL Cell</button>
-        </div>
-    </main>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/sql/sql.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="datasets.js"></script>
-    <script src="utils.js"></script>
-    <script src="script-core.js"></script>
-    <script src="script-notebook.js"></script>
-</body>
-</html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Notebook | ClassDesk SQL Intelligence</title>
+<!-- SQLV5 SEO -->
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="Adewale Samson Adeagbo, HMG Concepts">
+<meta name="keywords" content="SQL learning, SQL assistant, QueryPilot, QueryFlow, HMG Academy, HMG Technologies, Adewale Samson Adeagbo, data science learning, SQL workbench, no AI API, free SQL platform, Nigeria EdTech">
+<meta property="og:title" content="Notebook | ClassDesk SQL Intelligence">
+<meta property="og:description" content="Analysis notebook with Markdown, executable SQL cells, chart cells and HTML export.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SQL v5 — HMG SQL Intelligence">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="./notebook.html">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"SQL v5 — HMG SQL Intelligence","applicationCategory":"DeveloperApplication","operatingSystem":"Web","description":"Analysis notebook with Markdown, executable SQL cells, chart cells and HTML export.","creator":{"@type":"Person","name":"Adewale Samson Adeagbo","url":"https://cssadewale.pages.dev"},"publisher":{"@type":"Organization","name":"HMG Concepts","url":"https://hmgconcepts.pages.dev"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="assets/css/styles.css"></head><body>
+<nav class="navbar" data-nav></nav>
+<main class="page">
+  <div class="page-title"><div><span class="pill">Notebook</span><h1>Analysis Story Notebook</h1><p class="muted">Create reproducible reports with Markdown, SQL and chart cells. Data remains local unless you export/share it.</p></div><div class="toolbar"><button id="addMarkdown" class="btn">+ Markdown</button><button id="addSql" class="btn-primary">+ SQL</button><button id="addChart" class="btn-secondary">+ Chart</button><button id="exportNotebook" class="btn">Export HTML</button><button id="clearNotebook" class="btn-danger">Clear</button></div></div>
+  <section id="notebook" class="notebook"></section>
+</main>
+<footer class="footer" data-footer></footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+<script src="assets/js/data.js"></script><script src="assets/js/queryflow-data.js"></script><script src="assets/js/core.js"></script><script src="assets/js/sql-engine.js"></script><script src="assets/js/notebook.js"></script>
+</body></html>

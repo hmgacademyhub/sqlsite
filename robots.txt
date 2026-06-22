@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Sitemap: https://hmgacademyhub.github.io/sqlsite/sitemap.xml
+
+# SQL v5 is a static, indexable, no-paid-AI-API SQL learning and governance platform.

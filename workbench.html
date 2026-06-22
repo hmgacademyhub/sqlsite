@@ -1,149 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workbench | HMG SQL Intelligence</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/dracula.min.css">
-</head>
-<body class="dark-theme">
-    <nav class="navbar">
-        <div class="logo">
-            <span class="logo-icon">💎</span>
-            <span class="logo-text">HMG SQL <span>v6.0</span></span>
-        </div>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="workbench.html" class="active">Workbench</a>
-            <a href="notebook.html">Notebook</a>
-            <a href="academy.html">Academy</a>
-            <a href="diagnostics.html">Diagnostics</a>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="about.html">About</a>
-        </div>
-        <div class="nav-controls">
-            <div class="theme-toggle" id="theme-toggle">🌓</div>
-        </div>
-    </nav>
-
-    <main class="main-layout">
-        <aside class="sidebar left">
-            <div class="widget">
-                <div class="widget-header">🤖 INTELLIGENCE PILOT</div>
-                <div class="pilot-box">
-                    <input type="text" id="pilot-input" placeholder="e.g. Top 10 customers...">
-                    <button id="btn-pilot-ask" class="btn-small-full">Ask Pilot</button>
-                    <div id="pilot-params" class="params-area" style="display:none"></div>
-                </div>
-            </div>
-            <div class="widget">
-                <div class="widget-header">🛠️ VISUAL BUILDERS</div>
-                <div class="builder-menu">
-                    <button class="build-tab active" data-builder="standard">Std</button>
-                    <button class="build-tab" data-builder="join">Join</button>
-                    <button class="build-tab" data-builder="subquery">Sub</button>
-                </div>
-                <div id="builder-container" class="builder-content"></div>
-            </div>
-            <div class="widget">
-                <div class="widget-header">📁 SCHEMA</div>
-                <div id="schema-list" class="scroll-area"></div>
-            </div>
-        </aside>
-
-        <section class="core-workbench">
-            <div class="toolbar">
-                <div class="tool-group">
-                    <button id="btn-format" class="btn-tool">✨ Format</button>
-                    <button id="btn-run" class="btn-run">▶ Execute</button>
-                    <button id="btn-explain" class="btn-tool">🔍 Explain</button>
-                    <button id="btn-translate" class="btn-tool">⇄ Translate</button>
-                </div>
-                <div class="status-pill" id="db-status">Database: Idle</div>
-            </div>
-            <div id="editor-wrapper">
-                <textarea id="sql-editor"></textarea>
-            </div>
-            <div class="results-hub">
-                <div class="hub-tabs">
-                    <button class="tab active" data-tab="data-tab">Data</button>
-                    <button class="tab" data-tab="chart-tab">Chart</button>
-                    <button class="tab" data-tab="explain-tab">Execution Plan</button>
-                    <button class="tab" data-tab="audit-tab">Audit</button>
-                </div>
-                <div class="tab-pane active" id="data-tab">
-                    <div class="hub-toolbar">
-                        <span id="row-count">0 rows</span>
-                        <div class="export-group">
-                            <button id="btn-exp-csv" class="btn-small">CSV</button>
-                            <button id="btn-gen-report" class="btn-secondary">📄 Report</button>
-                        </div>
-                    </div>
-                    <div id="results-output" class="scroll-area"></div>
-                </div>
-                <div class="tab-pane" id="chart-tab">
-                    <div class="chart-controls">
-                        <select id="chart-type">
-                            <option value="bar">Bar</option>
-                            <option value="line">Line</option>
-                            <option value="pie">Pie</option>
-                        </select>
-                        <button id="btn-render-chart" class="btn-small">Update</button>
-                        <button id="btn-pin-chart" class="btn-small">📌 Pin</button>
-                    </div>
-                    <div class="chart-container"><canvas id="resultsChart"></canvas></div>
-                </div>
-                <div class="tab-pane" id="explain-tab">
-                    <div class="explain-content">
-                        <h3>Execution Plan Analysis</h3>
-                        <div id="explain-out" class="diag-out">Run an 'Explain' to see how the database retrieves your data.</div>
-                    </div>
-                </div>
-                <div class="tab-pane" id="audit-tab">
-                    <div id="audit-log" class="scroll-area">
-                        <table class="audit-table">
-                            <thead><tr><th>Time</th><th>Query</th><th>Duration</th><th>Status</th></tr></thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <aside class="sidebar right">
-            <div class="widget">
-                <div class="widget-header">📦 DATASETS</div>
-                <button id="btn-dataset-pack" class="btn-small-full">Load Industry Pack</button>
-                <label for="csv-upload" class="btn-small-full btn-ghost">Upload Custom CSV</label>
-                <input type="file" id="csv-upload" accept=".csv" multiple style="display:none">
-            </div>
-            <div class="widget">
-                <div class="widget-header">📐 SCHEMA MAP</div>
-                <div id="er-diagram" class="scroll-area"></div>
-            </div>
-            <div class="widget">
-                <div class="widget-header">💡 HMG TIPS</div>
-                <div class="tips-content">
-                    <p>Use <b>Explain Profiler</b> to find slow queries.</p>
-                    <hr>
-                    <p>Use <b>Notebooks</b> to document your analysis stories.</p>
-                </div>
-            </div>
-        </aside>
-    </main>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/sql/sql.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="datasets.js"></script>
-    <script src="utils.js"></script>
-    <script src="pilot.js"></script>
-    <script src="script-core.js"></script>
-    <script src="script-workbench.js"></script>
-</body>
-</html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Workbench | ClassDesk SQL Intelligence</title>
+<!-- SQLV5 SEO -->
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="Adewale Samson Adeagbo, HMG Concepts">
+<meta name="keywords" content="SQL learning, SQL assistant, QueryPilot, QueryFlow, HMG Academy, HMG Technologies, Adewale Samson Adeagbo, data science learning, SQL workbench, no AI API, free SQL platform, Nigeria EdTech">
+<meta property="og:title" content="Workbench | ClassDesk SQL Intelligence">
+<meta property="og:description" content="Browser SQL workbench with CSV upload, schema explorer, visual builder, charts, reports and project export.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SQL v5 — HMG SQL Intelligence">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="./workbench.html">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"SQL v5 — HMG SQL Intelligence","applicationCategory":"DeveloperApplication","operatingSystem":"Web","description":"Browser SQL workbench with CSV upload, schema explorer, visual builder, charts, reports and project export.","creator":{"@type":"Person","name":"Adewale Samson Adeagbo","url":"https://cssadewale.pages.dev"},"publisher":{"@type":"Organization","name":"HMG Concepts","url":"https://hmgconcepts.pages.dev"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="assets/css/styles.css"></head><body>
+<nav class="navbar" data-nav></nav>
+<main class="page">
+  <div class="page-title"><div><span class="pill">Workbench</span><h1>SQL Workbench & Intelligence Pilot</h1><p class="muted">Professional browser SQL IDE with schema explorer, visual builder, diagnostics, chart pins and project export.</p></div><span id="engineStatus" class="status">Engine: starting…</span></div>
+  <div class="workspace">
+    <aside class="side">
+      <section class="widget"><h3>🤖 Rule-based Pilot</h3><input id="pilotPrompt" class="input" placeholder="e.g. top 5 revenue by department"><div class="mini-toolbar" style="margin-top:.6rem"><button id="pilotBtn" class="btn-primary">Generate</button><button id="pilotExplain" class="btn">Explain</button></div><div id="pilotOut" class="notice" style="margin-top:.8rem">No paid AI API. Pattern engine converts common analysis questions into SQL.</div></section>
+      <section class="widget"><h3>🧱 Visual Builder</h3><label>Table</label><select id="builderTable"></select><label>Columns</label><input id="builderCols" class="input" placeholder="* or name, department"><label>Where</label><input id="builderWhere" class="input" placeholder="score > 80"><label>Group by</label><input id="builderGroup" class="input" placeholder="department"><label>Order / Limit</label><input id="builderOrder" class="input" placeholder="score DESC LIMIT 10"><button id="builderBtn" class="btn-secondary" style="margin-top:.7rem;width:100%">Build SQL</button></section>
+      <section class="widget"><h3>📁 Schema Explorer</h3><div id="schemaList" class="schema-list"></div></section>
+    </aside>
+    <section class="main-panel">
+      <section class="panel">
+        <div class="toolbar"><button id="runBtn" class="btn-primary">▶ Run <span class="kbd">Ctrl Enter</span></button><button id="formatBtn" class="btn">✨ Format</button><button id="explainBtn" class="btn">🔍 Explain</button><button id="lintBtn" class="btn">🧪 Lint</button><button id="saveSnippetBtn" class="btn">💾 Snippet</button><button id="exportProjectBtn" class="btn-secondary">Export Project</button><label class="btn-ghost" for="importProjectInput">Import Project</label><input id="importProjectInput" type="file" accept=".json,.hmg,.hmg.json" hidden></div>
+        <textarea id="sqlEditor" class="editor" spellcheck="false">SELECT department, ROUND(AVG(score), 1) AS avg_score, COUNT(*) AS learners
+FROM learners
+WHERE status = 'Active'
+GROUP BY department
+ORDER BY avg_score DESC;</textarea>
+      </section>
+      <section class="panel">
+        <div class="tabbar"><button class="btn-small active" data-tab="resultsTab">Data</button><button class="btn-small" data-tab="chartTab">Chart</button><button class="btn-small" data-tab="explainTab">Profiler</button><button class="btn-small" data-tab="auditTab">Audit</button></div>
+        <div id="resultsTab" class="tabs active"><div class="mini-toolbar" style="margin:.8rem 0"><span id="rowCount" class="pill">0 rows</span><button id="csvBtn" class="btn-small">Export CSV</button><button id="reportBtn" class="btn-small">HTML Report</button></div><div id="results" class="table-wrap"><div class="empty">Run a query to view results.</div></div></div>
+        <div id="chartTab" class="tabs"><div class="mini-toolbar" style="margin:.8rem 0"><select id="chartType" style="max-width:160px"><option>bar</option><option>line</option><option>pie</option></select><button id="chartBtn" class="btn-small">Render</button><button id="pinBtn" class="btn-small">📌 Pin to dashboard</button></div><div class="canvas-box"><canvas id="chartCanvas" width="720" height="310"></canvas></div></div>
+        <div id="explainTab" class="tabs"><div id="explainOut" class="notice" style="margin-top:.8rem">Run Explain to see query plan and optimization advice.</div></div>
+        <div id="auditTab" class="tabs"><div id="auditOut" class="table-wrap"></div></div>
+      </section>
+    </section>
+    <aside class="side">
+      <section class="widget"><h3>📦 Data</h3><button id="loadPackBtn" class="btn-primary" style="width:100%">Load sample pack</button><label class="btn" style="width:100%;margin-top:.6rem" for="csvInput">Upload CSV(s)</label><input id="csvInput" type="file" accept=".csv" multiple hidden><p class="muted">Tables: learners, enrollments, courses, sales, departments.</p></section>
+      <section class="widget"><h3>📐 ER Map</h3><div id="erMap" class="schema-list"></div></section>
+      <section class="widget"><h3>🧰 Snippets</h3><div id="snippetList" class="schema-list"></div></section>
+      <section class="widget"><h3>🏢 Enterprise quick checks</h3><div id="governanceOut" class="notice">Use Lint to populate security, performance and maintainability checks.</div></section>
+    </aside>
+  </div>
+</main>
+<footer class="footer" data-footer></footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+<script src="assets/js/data.js"></script><script src="assets/js/queryflow-data.js"></script><script src="assets/js/core.js"></script><script src="assets/js/sql-engine.js"></script><script src="assets/js/workbench.js"></script>
+</body></html>

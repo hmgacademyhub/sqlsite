@@ -1,96 +1,92 @@
-# 💎 SQL Workflow v6 | The HMG Ultimate Data Intelligence OS
+# SQL v5 — HMG Searchable Multi-Page SQL Intelligence Platform
 
-Welcome to **SQL Workflow v6**, the final and most comprehensive evolution of the HMG SQL ecosystem. This version transforms the platform from a workbench into a **Complete Data Intelligence Operating System**, designed by **Adewale Samson Adeagbo** to provide a professional, zero-cost, and private environment for data science.
+SQL v5 is the enhanced, SEO-ready, multi-page static platform that preserves and extends everything from SQL v4:
 
-V6 is the culmination of all previous versions, incorporating every feature from the QueryFlow and QueryPilot suites, and enhancing them with industry-standard features found in platforms like SQLBolt, SQLZoo, and Kaggle.
+1. **ClassDesk SQL Intelligence** — workbench, academy, notebook, diagnostics, dashboard.
+2. **QueryFlow v3 Static Lab** — no-code SQL, QueryFlow-style builder, profiler, pivot, insights, sharing and history.
+3. **QueryPilot v9 Console** — extracted QueryPilot PWA with 11 modes, 8 SQL tools, 25 enterprise features and 118-lesson Data Science Learning Hub.
+4. **HMG Brand Embedding** — dedicated builder/persona and ecosystem pages based on Adewale Samson Adeagbo and HMG Concepts brand sites.
+5. **Search Engine Readiness** — sitemap, robots file, semantic multi-page structure, meta tags, Open Graph tags, structured data, local search and documentation.
 
-## 🚀 The v6 "Ultimate" Feature Set
+## Main pages
 
-### 1. 📓 The Analysis Notebook (New!)
-Inspired by Jupyter and Kaggle, v6 introduces a **Notebook-style Workflow**. Instead of a single editor, users can now create "Analysis Stories" by mixing:
-*   **Markdown Cells:** For documenting the "Why" and "How" of the analysis.
-*   **SQL Cells:** Executable blocks of code that return data.
-*   **Visualization Cells:** Pinned charts that describe a specific insight.
-*   **Export as Report:** The entire notebook can be exported as a professional HTML report.
+| Page | Purpose |
+|---|---|
+| `index.html` | Main SEO gateway and product overview |
+| `workbench.html` | SQL workbench / IDE |
+| `queryflow.html` | Static QueryFlow v3 Lab |
+| `querypilot-v9.html` | Full QueryPilot v9 Console |
+| `enterprise-suite.html` | Enterprise governance overview |
+| `academy.html` | SQL Academy path |
+| `notebook.html` | Markdown + SQL + chart notebook |
+| `diagnostics.html` | SQL diagnostics and security tools |
+| `dashboard.html` | Executive pinned dashboard |
+| `search.html` | Local platform search |
+| `persona.html` | Adewale Samson Adeagbo builder profile |
+| `ecosystem.html` | HMG Concepts ecosystem page |
+| `about.html` | About and feature explanation |
 
-### 2. 🔍 Execution Plan Profiler (New!)
-To move users from "writing queries" to "optimizing queries," v6 integrates the **Explain Profiler**:
-*   **Execution Path:** Uses `EXPLAIN QUERY PLAN` to show if the database is doing a "Full Table Scan" or using an "Index."
-*   **Optimization Tips:** The system analyzes the plan and suggests adding indexes or simplifying JOINs to improve speed.
+## SEO and discoverability files
 
-### 3. 🎓 Interactive Pedagogy (Enhanced Academy)
-Moving beyond simple challenges, the Academy now features **Guided Learning**:
-*   **Step-by-Step Flow:** Lessons are broken into tiny, interactive steps where the user must solve a small part of the problem before moving on.
-*   **Contextual Feedback:** Instead of "Correct/Incorrect," the system analyzes the SQL and gives hints (e.g., "You forgot the GROUP BY clause for the non-aggregated column").
-*   **Certification Path:** A structured journey from "Novice" to "Architect."
-
-### 4. 🔗 Project Portability (Collaboration)
-*   **State Export/Import:** Users can export their entire project (database, snippets, and notebook) as a single `.hmg` project file.
-*   **Project Sharing:** The ability to import another person's project file to collaborate or learn from their analysis.
-
-### 5. 🤖 Intelligence Pilot & Diagnostic Suite (Refined)
-*   **No-AI Pattern Pilot:** 60+ rule-based patterns for instant SQL generation.
-*   **Visual Builders:** Standard, JOIN, and Subquery wizards for no-code construction.
-*   **Complexity Estimator:** Risk scoring for production safety.
-*   **Error Explainer:** Plain-English translation of cryptic DB errors.
-
----
-
-## 📂 The v6 Architecture
 ```text
-sql v6/
-├── index.html          # Brand Portal & Ecosystem Gateway
-├── workbench.html      # Professional IDE + Explain Profiler
-├── notebook.html       # Analysis Notebook (Markdown + SQL)
-├── academy.html        # Interactive Learning Hub
-├── diagnostics.html    # The Toolset (Diff, Error, Complexity)
-├── dashboard.html      # Executive KPI Dashboard
-├── about.html          # The HMG Brand & Visioner Hub
-├── script-core.js      # Global state, brand links, theme
-├── script-workbench.js # IDE & Execution Logic
-├── script-notebook.js  # Notebook cell management
-├── script-academy.js   # Interactive pedagogy logic
-├── script-diagnostics.js# Diagnostic suite logic
-├── script-dashboard.js # Pinned analysis logic
-├── pilot.js            # Rule-based NLP engine
-├── diagnostics.js      # Complexity & Error engine
-├── utils.js            # Global helpers & Dialect translation
-├── datasets.js         # Industry-standard data packs
-└── README.md           # Documentation
+robots.txt
+sitemap.xml
+humans.txt
+manifest.webmanifest
+querypilot-manifest.json
 ```
 
----
+The sitemap currently uses:
 
-## 🚀 Deployment Guide (Enterprise Standard)
+```text
+https://hmgacademyhub.github.io/sqlsite/
+```
 
-This is a **Static Multi-Page Application (MPA)** optimized for the Edge.
+If you deploy on a different custom domain, update `sitemap.xml` and `robots.txt` with your final domain.
 
-### Recommended Providers
-*   **Cloudflare Pages** (Best for global low-latency).
-*   **Vercel** (Best for fast iterations).
-*   **Netlify** (Best for simple GitHub sync).
+## HMG identity embedded
 
-### Deployment Steps
-1.  **GitHub Sync:** Create a public repository and push all files in the `sql v6/` folder.
-2.  **Connect Provider:** Log into your provider and select **"Import from GitHub"**.
-3.  **Configuration:**
-    *   **Build Command:** `None`.
-    *   **Output Directory:** `.` (Root).
-4.  **Live:** Your platform will be available at a secure HTTPS domain (e.g., `hmg-sql.pages.dev`).
+SQL v5 includes details from:
 
-### Local Testing
+- Adewale Samson Adeagbo portfolio — `https://cssadewale.pages.dev`
+- HMG Concepts — `https://hmgconcepts.pages.dev`
+- HMG Academy — `https://hmgacademy.pages.dev`
+- HMG Technologies — `https://hmgtechnologies.pages.dev`
+- HMG Media — `https://hmgmedia.pages.dev`
+- HMG Gospel — `https://hmggospel.pages.dev`
+
+## Free/no-cost architecture
+
+- Static HTML/CSS/JavaScript.
+- Optional free `sql.js` CDN.
+- Local fallback SQL engine.
+- LocalStorage persistence.
+- Native Canvas charts.
+- PWA/offline support.
+- No paid AI API.
+- No required backend.
+
+## Local testing
+
 ```bash
+cd "sql v5"
 python3 -m http.server 8000
 ```
-Visit `http://localhost:8000` to test.
 
----
+Open:
 
-## 🛠️ Technical Stack
-- **Engine:** `sql.js` (SQLite WASM)
-- **UI/UX:** CSS Grid/Flexbox, Glassmorphism, HMG Brand System
-- **Visuals:** `Chart.js` & `SVG`
-- **Editor:** `CodeMirror`
-- **Data Processing:** `PapaParse`
-- **Intelligence:** Rule-based Pattern Matching & Regular Expressions
-- **Storage:** `LocalStorage` & `IndexedDB`
+```text
+http://localhost:8000
+```
+
+## Deployment
+
+See `DEPLOYMENT.md`.
+
+## Detailed features
+
+See `FEATURES.md`, `ENTERPRISE.md`, `LEARNING_HUB.md`, `RECHECK_AND_V4_AUDIT.md` and `QUERYFLOW_AUDIT.md`.
+
+## License
+
+MIT. See `LICENSE`.

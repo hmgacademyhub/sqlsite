@@ -1,0 +1,63 @@
+{
+  "name": "QueryPilot v9 \u2014 Free SQL Assistant + Data Science Learning Hub",
+  "short_name": "QueryPilot",
+  "description": "Free, offline, no-API SQL assistant by Adewale Samson Adeagbo (HMG Concepts, Lagos, Nigeria). 25 enterprise features (workspaces, RBAC, governance, audit, PII scanner, encrypted vault) + complete 118-lesson Data Science Learning Hub (zero to expert). 8 SQL modes, 8 tools, 4 themes, PWA installable.",
+  "start_url": "./querypilot-v9.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0e1117",
+  "theme_color": "#3fb950",
+  "orientation": "any",
+  "lang": "en",
+  "categories": [
+    "productivity",
+    "developer",
+    "education",
+    "utilities"
+  ],
+  "icons": [
+    {
+      "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='42' fill='%233fb950'/><text x='50%25' y='62%25' font-size='120' text-anchor='middle' fill='white' font-family='Arial,sans-serif' font-weight='700'>%E2%9A%A1</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='112' fill='%233fb950'/><text x='50%25' y='62%25' font-size='320' text-anchor='middle' fill='white' font-family='Arial,sans-serif' font-weight='700'>%E2%9A%A1</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Ask in English",
+      "url": "./index.html#mode=chat"
+    },
+    {
+      "name": "Visual Builder",
+      "url": "./index.html#mode=vqb"
+    },
+    {
+      "name": "Enterprise Console",
+      "url": "./index.html#mode=ent"
+    },
+    {
+      "name": "\ud83c\udf93 Learning Hub",
+      "url": "./index.html#mode=hub"
+    },
+    {
+      "name": "Learn SQL (legacy)",
+      "url": "./index.html#mode=learn"
+    }
+  ],
+  "author": "Adewale Samson Adeagbo \u2014 HMG Concepts, Lagos, Nigeria",
+  "developer": {
+    "name": "Adewale Samson Adeagbo",
+    "url": "https://cssadewale.pages.dev"
+  },
+  "publisher": {
+    "name": "HMG Concepts (His Marvellous Grace Educational Consult)",
+    "url": "https://hmgconcepts.pages.dev"
+  }
+}
